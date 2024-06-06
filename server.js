@@ -62,8 +62,8 @@ app.use(passport.session());
 
 // Configura Passport con Google OAuth
 passport.use(new GoogleStrategy({
-  clientID: '785693464680-n23a85alkt22t1e9nili98j3fpmdtq6k.apps.googleusercontent.com',
-  clientSecret: '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',
+  clientID: '',
+  clientSecret: '',
   callbackURL: 'http://localhost:3000/auth/google/callback'
 }, async (token, tokenSecret, profile, done) => {
   try {
