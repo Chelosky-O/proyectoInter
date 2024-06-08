@@ -9,7 +9,7 @@ const path = require('path');
     
     app.set('view engine', 'ejs');
     app.set('views', path.join(__dirname, 'views'));
-    
+    app.use(express.static(path.join(__dirname, 'public')));
     // Configura la base de datos
     let db;
     
@@ -129,9 +129,16 @@ const path = require('path');
     }));
     
     app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-      res.redirect('/');
+      res.redirect('/user');
     });
     
+    app.get('/user', (req, res) => {
+      if (!req.isAuthenticated()) {
+        return res.redirect('/login');
+      }
+      res.render('user', { user: req.user });
+    });
+
     app.get('/perfil', (req, res) => {
       if (!req.isAuthenticated()) {
         return res.redirect('/login');

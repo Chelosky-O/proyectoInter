@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Home</title>
-</head>
-<body>
-  <h1>Bienvenido</h1>
-  <% if (user) { %>
-    <p>Hola, <%= user.nombre %>!</p>
-    <a href="/perfil">Ver Perfil</a>
-    <a href="/logout">Cerrar Sesión</a>
-  <% } else { %>
-    <a href="/login">Iniciar Sesión</a>
-  <% } %>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/globals.css"/>
+    <link rel="stylesheet" href="/css/styleguide.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+  </head>
+  <body>
+    <div class="frame">
+        <div class="overlap">
+          <img class="chevron-down" src="/img/chevron-down-1.png" />
+          <div class="sobre-nosotros"><div class="text-wrapper">Sobre Nosotros</div></div>
+          <div class="faad"></div>
+          <div class="navlink"><img class="group" src="/img/group-4489-1.svg" /></div>
+          <div class="sobre-nosotros-wrapper"><div class="div"><a style="color: #FFFFFF;"href="/login">Inicio sesión</a></div></div>
+          <div class="rectangle"></div>
+          <div class="component">
+            <div class="overlap-group">
+              <img class="question-lg" src="/img/question-lg-1.svg" /> <img class="chat" src="/img/chat-2.svg" />
+            </div>
+          </div>
+          <div class="text-wrapper-2">ApuntARQ</div>
+          <p class="p">
+            ApuntARQ s una plataforma digital especialmente concebida para brindar apoyo y recursos a los estudiantes de
+            arquitectura de la Universidad Diego Portales (UDP). Su principal objetivo es proporcionar un espacio
+            interactivo donde los estudiantes puedan acceder a material didáctico variado para refrescar y fortalecer
+            sus conocimientos en diversas áreas de la arquitectura.
+          </p>
+        </div>
+      </div>
+  </body>
 </html>
