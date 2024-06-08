@@ -1,6 +1,6 @@
 # Protecto Interdiciplinario
 
-##Instalar Requerimientos
+## Instalar Requerimientos
 ```
 npm i
 ```
