@@ -1,4 +1,6 @@
 # Protecto Interdiciplinario
 
 ##Instalar Requerimientos
->npm i<
+```
+npm i
+```
