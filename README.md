@@ -1,2 +1,6 @@
-# proyectoInter
-proyectoInter
+# Protecto Interdiciplinario
+
+## Instalar Requerimientos
+```
+npm i
+```
