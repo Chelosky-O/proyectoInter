@@ -8,19 +8,19 @@
 
 .frame .overlap-wrapper {
   background-color: #ffffff;
-  width: 1920px;
-  height: 1076px;
+  width: 100%;
+  height: 100%;
 }
 
 .frame .overlap {
   position: relative;
-  height: 1076px;
+  height: 100%;
 }
 
 .frame .rectangle {
   position: absolute;
-  width: 1920px;
-  height: 990px;
+  width: 100%;
+  height: 880px;
   top: 86px;
   left: 0;
   background-color: #d9d9d9;
@@ -39,8 +39,8 @@
   position: absolute;
   width: 67px;
   height: 59px;
-  top: 966px;
-  left: 1805px;
+  top: 850px;
+  left: 92%;
 }
 
 .frame .overlap-group {
@@ -119,8 +119,8 @@
 
 .frame .navlink {
   position: absolute;
-  width: 1920px;
-  height: 93px;
+  width: 100%;
+  height: 95px;
   top: 0;
   left: 0;
   background-color: #cc2936;

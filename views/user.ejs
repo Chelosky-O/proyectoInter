@@ -1,54 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <link rel="stylesheet" href="/css/user/globals.css" />
-  <link rel="stylesheet" href="/css/user/styleguide.css" />
-  <link rel="stylesheet" href="/css/user/style.css" />
-</head>
-<body>
-  <div class="estudiante">
-    <div class="overlap-wrapper">
-      <div class="overlap">
-        <div class="navlink">
-          <img class="group" src="/img/group-4489-1.svg" />
-          <img class="usuario" src="<%= user.foto %>" />
-          <div class="aos"><div class="text-wrapper">Años</div></div>
-          <div class="sobre-nosotros"><div class="div">Sobre Nosotros</div></div>
-        </div>
-        <div class="component">
-          <div class="overlap-group">
-            <img class="question-lg" src="/img/question-lg-1.svg" /> 
-            <img class="chat" src="/img/chat-2.svg" />
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/user/globals.css" />
+    <link rel="stylesheet" href="/css/user/styleguide.css" />
+    <link rel="stylesheet" href="/css/user/style.css" />
+  </head>
+  <body>
+    <div class="estudiante">
+      <div class="overlap-wrapper">
+        <div class="overlap">
+          <div class="navlink">
+            <a href="/"><img class="group" src="/img/group-4489-1.svg" /> </a>
+
+            <div class="sobre-nosotros">
+              <a style="padding: 10px; margin-top: 9px">Años</a>
+              <a style="padding: 25px; margin-top: 9px; margin-right: 3px"
+                >Sobre Nosotros</a
+              >
+              <a href="/user"
+                ><img
+                  class="usuario"
+                  style="margin-top: -20px"
+                  src="<%= user.foto %>"
+              /></a>
+            </div>
           </div>
-        </div>
-        <div class="TTULO-AO"><div class="RAMOS-DE-PRIMER-a-o">Cuenta</div></div>
-        <div class="overlap-2">
-          <img class="img" src="<%= user.foto %>" /> 
-          <img class="pencil-fill" src="/img/pencil-fill-1.svg" />
-        </div>
-        <div class="text-wrapper-2">Usuario</div>
-        <div class="component-2">
-          <div class="text-wrapper-3"><%= user.nombre %></div>
-          <img class="vector" src="/img/vector-87-2.svg" />
-        </div>
-        <div class="component-3">
-          <div class="text-wrapper-3"><%= user.apellido %></div>
-          <img class="vector" src="/img/vector-87-2.svg" />
-          <div class="vector-wrapper"><img class="vector-2" src="/img/vector-5.svg" /></div>
-          <div class="img-wrapper"><img class="vector-2" src="/img/vector-5.svg" /></div>
-        </div>
-        <div class="overlap-3">
-          <div class="component-4">
+          <div class="component">
+            <div class="overlap-group">
+              <img class="question-lg" src="/img/question-lg-1.svg" />
+              <img class="chat" src="/img/chat-2.svg" />
+            </div>
+          </div>
+          <div class="TTULO-AO">
+            <div class="RAMOS-DE-PRIMER-a-o" style="left: 40px">Cuenta</div>
+          </div>
+          <a class="text-wrapper-2" href="/logout">Cerrar Sesión</a>
+          <div class="overlap-2">
+            <img class="img" src="<%= user.foto %>" />
+          </div>
+
+          <div class="component-2" style="margin-top: 70px">
+            <div class="text-wrapper-3"><%= user.nombre %></div>
+            <img class="vector" src="/img/vector-87-2.svg" />
+          </div>
+          <div class="component-3" style="margin-top: 70px">
             <div class="text-wrapper-3"><%= user.email %></div>
             <img class="vector" src="/img/vector-87-2.svg" />
           </div>
-          <img class="vector-3" src="/img/vector-4.svg" />
-          <img class="vector-4" src="/img/vector-5.svg" />
         </div>
-
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>

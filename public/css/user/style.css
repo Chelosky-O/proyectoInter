@@ -6,25 +6,24 @@
   width: 100%;
 }
 
+.estudiante .navlink {
+  position: absolute;
+  width: 100%;
+  height: 95px;
+  top: 0;
+  left: 0;
+  background-color: #cc2936;
+}
+
 .estudiante .overlap-wrapper {
   width: 1920px;
-  height: 1080px;
+  height: 965px;
 }
 
 .estudiante .overlap {
   position: relative;
-  height: 1076px;
-  top: 4px;
+  height: 965px;
   background-color: #f6f4f4;
-}
-
-.estudiante .navlink {
-  position: absolute;
-  width: 1920px;
-  height: 93px;
-  top: 0;
-  left: 0;
-  background-color: #cc2936;
 }
 
 .estudiante .group {
@@ -37,24 +36,15 @@
 
 .estudiante .usuario {
   position: absolute;
+  border-radius: 50%;
   width: 48px;
   height: 48px;
-  top: 18px;
-  left: 1802px;
-}
-
-.estudiante .aos {
-  position: absolute;
-  width: 46px;
-  height: 23px;
-  top: 31px;
-  left: 1493px;
 }
 
 .estudiante .text-wrapper {
   position: absolute;
   top: -1px;
-  left: 0;
+  left: 1%;
   font-family: "Roboto", Helvetica;
   font-weight: 800;
   color: #ffffff;
@@ -65,11 +55,14 @@
 }
 
 .estudiante .sobre-nosotros {
-  position: absolute;
-  width: 141px;
-  height: 23px;
-  top: 31px;
-  left: 1609px;
+  font-family: "Roboto", Helvetica;
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 20px;
+  letter-spacing: 0;
+  align-items: center;
+  display: flex;
+  margin-left: 80%;
 }
 
 .estudiante .div {
@@ -90,13 +83,15 @@
   position: absolute;
   width: 67px;
   height: 59px;
-  top: 962px;
-  left: 1802px;
+  top: 90%;
+  left: 95%;
 }
 
 .estudiante .overlap-group {
   position: relative;
   height: 59px;
+  filter: invert(32%) sepia(100%) saturate(7500%) hue-rotate(345deg)
+    brightness(97%) contrast(101%);
 }
 
 .estudiante .question-lg {
@@ -151,6 +146,7 @@
   height: 403px;
   top: 0;
   left: 0;
+  border-radius: 50%;
 }
 
 .estudiante .pencil-fill {
@@ -199,9 +195,9 @@
 
 .estudiante .vector {
   position: absolute;
-  width: 942px;
+  width: 475px;
   height: 1px;
-  top: 96px;
+  top: 50px;
   left: 0;
 }
 
