@@ -1,0 +1,33 @@
+.header {
+    background-color: transparent;
+    flex-direction: row;
+    width: 100%;
+    position: absolute;
+    height: 8%;
+    top: 0;
+    left: 0;
+    background-color: #cc2936;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alinea verticalmente los elementos al centro */
+  }
+
+.icono {
+  display: block;
+  margin-left: 10px; /* Asegura que la imagen esté alineada a la izquierda */
+  float: left; /* Hace que la imagen flote a la izquierda */
+  left: 48px;
+}
+
+.login{
+
+  font-family: "Roboto", Helvetica;
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 20px;
+  margin-right: 50px; /* Empuja el enlace hacia la derecha */
+}
+
+.spacer {
+  flex-grow: 1; /* Toma el espacio restante entre la imagen y el enlace */
+}
