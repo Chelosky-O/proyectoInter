@@ -1,33 +1,80 @@
 .header {
-    background-color: transparent;
-    flex-direction: row;
-    width: 100%;
-    position: absolute;
-    height: 8%;
-    top: 0;
-    left: 0;
-    background-color: #cc2936;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Alinea verticalmente los elementos al centro */
-  }
+  background-color: #cc2936;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  height: 8%;
+  top: 0;
+  left: 0;
+  padding: 10px; /* Añadir un padding para evitar que los elementos se peguen a los bordes */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho del contenedor */
+}
 
 .icono {
   display: block;
-  margin-left: 10px; /* Asegura que la imagen esté alineada a la izquierda */
-  float: left; /* Hace que la imagen flote a la izquierda */
-  left: 48px;
+  margin-left: 10px; /* Ajusta el margen según sea necesario */
+  max-width: 100%; /* Asegura que el icono no exceda el ancho del contenedor */
+  max-height: 100%;
+  height: 100%; 
 }
 
 .login{
-
   font-family: "Roboto", Helvetica;
   font-weight: 800;
   color: #ffffff;
-  font-size: 20px;
-  margin-right: 50px; /* Empuja el enlace hacia la derecha */
+  font-size: 15px;
+  text-align: right;
+  font-style: normal;
+  line-height: normal;
+  margin-right: 3%; /* Empuja el enlace hacia la derecha */
 }
 
-.spacer {
-  flex-grow: 1; /* Toma el espacio restante entre la imagen y el enlace */
+.hamburger {
+  display: none;
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  top: 90%; /* Ajusta esto según la altura de tu header */
+  right: 20px; /* Alineado con el margen derecho de la hamburguesa */
+  background-color: #EAEAEA;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: auto;
+}
+
+.menu a {
+  font-family: "Roboto", Helvetica;
+  display: block;
+  color: #cc2936; /* Color del texto del menú */
+  text-decoration: none;
+  padding: 10px 20px;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+@media (max-width: 600px) {
+  .login {
+      display: none;
+  }
+
+  .hamburger {
+      display: block;
+  }
+
+  .menu a {
+      display: block;
+      margin-right: 25px;
+  }
 }
