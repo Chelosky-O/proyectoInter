@@ -9,13 +9,30 @@
 </head>
 <body>
     <div class="header">
-        <img class="icono" src="/img/group-4489-1.svg" />
-        <div class="spacer"></div>
-        <a class="login" href="/login">Inicio sesión</a>
-        <img class="hamburger" src="/img/3lines.svg" />
-        <div class="menu" id="menu">
-            <a href="/login">Inicio sesión</a>
-        </div>
+        <a href="/" class="icono">
+            <img class="icono" src="/img/group-4489-1.svg" />
+        </a>
+
+        <% if(typeof user !== 'undefined' && typeof user.foto !== 'undefined'){ %>
+            <div class="user-menu">
+                <a class="login" href="/">Años</a>
+                <a class="login" href="/">Sobre Nosotros</a>
+                <a href="/user">
+                    <img
+                      class="profile-pic" 
+                      src="<%= user.foto %>"
+                    />
+                </a>
+            </div>
+            
+        <%} else{ %>
+            <a class="login" href="/login">Inicio sesión</a>
+            <img class="hamburger" src="/img/3lines.svg" />
+            <div class="menu" id="menu">
+                <a href="/login">Inicio sesión</a>
+            </div>
+        <% } %>
+        
     </div>
 
     <script>
@@ -27,6 +44,7 @@
                 menu.style.display = 'block';
             }
         });
+
     </script>
 </body>
 </html>
