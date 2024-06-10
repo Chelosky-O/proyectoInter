@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,55 +48,3 @@
     </script>
 </body>
 </html>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/header.css"/>
-    <link rel="stylesheet" href="/css/styleguide.css"/>
-   <!-- <link rel="stylesheet" href="/css/styleguide.css"/>-->
-</head>
-<body>
-    <div class="header">
-        <a href="/" class="icono">
-            <img class="icono" src="/img/group-4489-1.svg" />
-        </a>
-
-        <% if(typeof user !== 'undefined' && typeof user.foto !== 'undefined'){ %>
-            <div class="user-menu">
-                <a class="login" href="/">Años</a>
-                <a class="login" href="/">Sobre Nosotros</a>
-                <a href="/user">
-                    <img
-                      class="profile-pic" 
-                      src="<%= user.foto %>"
-                    />
-                </a>
-            </div>
-            
-        <%} else{ %>
-            <a class="login" href="/login">Inicio sesión</a>
-            <img class="hamburger" src="/img/3lines.svg" />
-            <div class="menu" id="menu">
-                <a href="/login">Inicio sesión</a>
-            </div>
-        <% } %>
-        
-    </div>
-
-    <script>
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            var menu = document.getElementById('menu');
-            if (menu.style.display === 'block') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'block';
-            }
-        });
-
-    </script>
-</body>
-</html>
->>>>>>> master
