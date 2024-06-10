@@ -11,6 +11,8 @@
   padding: 10px; /* Añadir un padding para evitar que los elementos se peguen a los bordes */
   box-sizing: border-box; /* Incluye el padding en el cálculo del ancho del contenedor */
   min-height: 80px;
+  text-decoration: none; /* Elimina el subrayado de todos los enlaces en el header */
+
 }
 
 .login{
@@ -102,4 +104,8 @@
       display: block;
       margin-right: 25px;
   }
+}
+
+a {
+  text-decoration: none; /* Quitar el subrayado */
 }
