@@ -18,6 +18,7 @@ function createDbPool() {
     host: "localhost",
     user: "root",
     password: "1234",
+    //password: "password1234",
     database: "notas",
     port: 3306,
     waitForConnections: true,
@@ -75,6 +76,7 @@ passport.use(
         "785693464680-n23a85alkt22t1e9nili98j3fpmdtq6k.apps.googleusercontent.com",
       clientSecret: "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",
       callbackURL: "http://localhost:3000/auth/google/callback",
+      //callbackURL: "http://http://129.151.112.103.nip.io:3000/auth/google/callback",
     },
     async (token, tokenSecret, profile, done) => {
       try {
