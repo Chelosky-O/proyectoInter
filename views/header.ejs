@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/styleguide.css"/>
    <!-- <link rel="stylesheet" href="/css/styleguide.css"/>-->
 </head>
 <body>
@@ -11,6 +12,21 @@
         <img class="icono" src="/img/group-4489-1.svg" />
         <div class="spacer"></div>
         <a class="login" href="/login">Inicio sesión</a>
+        <img class="hamburger" src="/img/3lines.svg" />
+        <div class="menu" id="menu">
+            <a href="/login">Inicio sesión</a>
+        </div>
     </div>
+
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            var menu = document.getElementById('menu');
+            if (menu.style.display === 'block') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
