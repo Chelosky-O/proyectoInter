@@ -1,0 +1,270 @@
+.estudiante {
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.estudiante .navlink {
+  position: absolute;
+  width: 100%;
+  height: 95px;
+  top: 0;
+  left: 0;
+  background-color: #cc2936;
+}
+
+.estudiante .overlap-wrapper {
+  width: 1920px;
+  height: 965px;
+}
+
+.estudiante .overlap {
+  position: relative;
+  height: 965px;
+  background-color: #f6f4f4;
+}
+
+.estudiante .group {
+  position: absolute;
+  width: 72px;
+  height: 80px;
+  top: 6px;
+  left: 48px;
+}
+
+.estudiante .usuario {
+  position: absolute;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+}
+
+.estudiante .text-wrapper {
+  position: absolute;
+  top: -1px;
+  left: 1%;
+  font-family: "Roboto", Helvetica;
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.estudiante .sobre-nosotros {
+  font-family: "Roboto", Helvetica;
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 20px;
+  letter-spacing: 0;
+  align-items: center;
+  display: flex;
+  margin-left: 80%;
+}
+
+.estudiante .div {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  font-family: "Roboto", Helvetica;
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 20px;
+  text-align: right;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.estudiante .component {
+  position: absolute;
+  width: 67px;
+  height: 59px;
+  top: 90%;
+  left: 95%;
+}
+
+.estudiante .overlap-group {
+  position: relative;
+  height: 59px;
+  filter: invert(32%) sepia(100%) saturate(7500%) hue-rotate(345deg)
+    brightness(97%) contrast(101%);
+}
+
+.estudiante .question-lg {
+  position: absolute;
+  width: 30px;
+  height: 26px;
+  top: 17px;
+  left: 18px;
+}
+
+.estudiante .chat {
+  position: absolute;
+  width: 67px;
+  height: 59px;
+  top: 0;
+  left: 0;
+}
+
+.estudiante .TTULO-AO {
+  position: absolute;
+  width: 889px;
+  height: 110px;
+  top: 170px;
+  left: 111px;
+}
+
+.estudiante .RAMOS-DE-PRIMER-a-o {
+  position: absolute;
+  width: 889px;
+  top: -1px;
+  left: 0;
+  font-family: "Roboto Condensed", Helvetica;
+  font-weight: 700;
+  color: #cc2936;
+  font-size: 96px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.estudiante .overlap-2 {
+  position: absolute;
+  width: 403px;
+  height: 403px;
+  top: 357px;
+  left: 84px;
+}
+
+.estudiante .img {
+  position: absolute;
+  width: 403px;
+  height: 403px;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+
+.estudiante .pencil-fill {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  top: 304px;
+  left: 251px;
+}
+
+.estudiante .text-wrapper-2 {
+  position: absolute;
+  width: 309px;
+  top: 792px;
+  left: 131px;
+  font-family: "Roboto Condensed", Helvetica;
+  font-weight: 700;
+  color: #000000;
+  font-size: 48px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: 56.8px;
+  white-space: nowrap;
+}
+
+.estudiante .component-2 {
+  position: absolute;
+  width: 942px;
+  height: 96px;
+  top: 386px;
+  left: 608px;
+}
+
+.estudiante .text-wrapper-3 {
+  position: absolute;
+  width: 612px;
+  top: -1px;
+  left: 0;
+  font-family: "Roboto Condensed", Helvetica;
+  font-weight: 700;
+  color: #cc2936;
+  font-size: 32px;
+  letter-spacing: 0;
+  line-height: 37.8px;
+}
+
+.estudiante .vector {
+  position: absolute;
+  width: 475px;
+  height: 1px;
+  top: 50px;
+  left: 0;
+}
+
+.estudiante .component-3 {
+  position: absolute;
+  width: 942px;
+  height: 96px;
+  top: 529px;
+  left: 608px;
+}
+
+.estudiante .vector-wrapper {
+  position: absolute;
+  width: 26px;
+  height: 27px;
+  top: 47px;
+  left: 941px;
+  background-image: url(./img/vector-4.svg);
+  background-size: 100% 100%;
+}
+
+.estudiante .vector-2 {
+  position: absolute;
+  width: 7px;
+  height: 6px;
+  top: 5px;
+  left: 15px;
+}
+
+.estudiante .img-wrapper {
+  position: absolute;
+  width: 26px;
+  height: 27px;
+  top: -100px;
+  left: 941px;
+  background-image: url(./img/vector-4.svg);
+  background-size: 100% 100%;
+}
+
+.estudiante .overlap-3 {
+  position: absolute;
+  width: 967px;
+  height: 97px;
+  top: 672px;
+  left: 608px;
+}
+
+.estudiante .component-4 {
+  position: absolute;
+  width: 942px;
+  height: 97px;
+  top: 0;
+  left: 0;
+}
+
+.estudiante .vector-3 {
+  position: absolute;
+  width: 26px;
+  height: 27px;
+  top: 48px;
+  left: 941px;
+}
+
+.estudiante .vector-4 {
+  position: absolute;
+  width: 7px;
+  height: 6px;
+  top: 53px;
+  left: 956px;
+}
