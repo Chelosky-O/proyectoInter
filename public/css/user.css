@@ -1,0 +1,180 @@
+body {
+    background-size: cover;
+    background-position: center;
+    background-color: #F6F4F4;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container {
+    display: flex;
+    width: 90%;
+    height: 80vh;
+  }
+  
+  .titulo {
+    color: var(--Rojo, #CC2936);
+    font-family: "Roboto Condensed";
+    font-size: 96px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-bottom: 10%;
+  }
+  
+  .img {
+    border-radius: 50%;
+    width: 250px; /* Ajusta el ancho según sea necesario */
+    height: 250px; /* Ajusta la altura según sea necesario */
+    margin-bottom: 10%;
+  }
+  
+  .cerrar_sesion {
+    color: var(--Monocrome-black, #000);
+    text-align: center;
+    font-family: "Roboto Condensed";
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 118.266%; /* 56.767px */
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    /*background-color: #ffffff;*/
+    padding: 20px;
+    border-radius: 10px;
+    /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
+
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 2;
+    margin-left: 20px;
+    padding: 20px;
+    /*background-color: #ffffff;*/
+    border-radius: 10px;
+    /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
+  }
+  
+  .datos_estudiante {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dato {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .label {
+    font-size: 1.2em;
+    color: #cc2936;
+    margin-right: 10px;
+  }
+  
+  .textouser {
+    color: var(--Rojo, #CC2936);
+    font-family: "Roboto Condensed";
+    font-size: 150%;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 118.266%; /* 37.845px */
+  }
+  
+  .vector {
+   /* margin-top: 10%; /* Añade un margen superior para separar la imagen del texto */
+    width: 100%;
+    margin-bottom: 10%;
+   /* height: 200px;*/
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .sidebar, .content {
+      width: 100%;
+      margin: 0 0 20px 0;
+    }
+  
+    .ayuda {
+      bottom: 3%;
+      right: 3%;
+      width: 60px;
+      height: 60px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ayuda {
+      bottom: 1%;
+      right: 5%;
+      width: 70px;
+      height: 70px;
+    }
+  }
+
+
+  /*SIMBOLO PREGUNTA*/
+  .ayuda {
+    position: fixed;
+    bottom: 1%;
+    right: 2%;
+    bottom: 5%; /* Ajusta esta propiedad para mover el contenedor hacia arriba */
+    width: 5%; /* Ajusta el ancho del contenedor según el tamaño de las imágenes */
+    height: 5%; /* Ajusta la altura del contenedor según el tamaño de las imágenes */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    
+  }
+  
+  .simb-pregunta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra la imagen */
+    width: 50%; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 50%; /* Ajusta el tamaño de la imagen según sea necesario */
+    cursor: pointer;
+    filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+}
+  
+  .simb-chat {
+    width: 100%; /* Ajusta el tamaño de las imágenes */
+    height: 100%; /* Ajusta el tamaño de las imágenes */
+    filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+}
+  
+  @media (max-width: 768px) {
+    .ayuda {
+      bottom: 3%; /* Ajusta la posición para pantallas medianas */
+      right: 3%;
+      width: 8%;
+      height: 8%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ayuda {
+      bottom: 1%; /* Ajusta la posición para pantallas pequeñas */
+      right: 5%;
+      width: 10%;
+      height: 10%;
+    }
+  }

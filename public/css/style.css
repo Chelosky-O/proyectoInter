@@ -1,9 +1,9 @@
-body{
+body {
   padding-top: 80px;
   background-image: url("/img/image-6-1.png");
   background-size: cover;
   background-position: center;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -20,7 +20,7 @@ body::before {
   background-attachment: fixed;
 }
 
-.titulo{
+.titulo {
   position: absolute;
   font-family: "Roboto Condensed", Helvetica;
   font-weight: 700;
@@ -33,7 +33,7 @@ body::before {
   left: 10%;
 }
 
-.parra{
+.parra {
   position: absolute;
   width: 40%;
   top: 40%;
@@ -49,22 +49,65 @@ body::before {
 /* Media Queries para dispositivos móviles */
 @media (max-width: 768px) {
   .titulo {
-      font-size: 500%;
+    font-size: 500%;
   }
 
   .parra {
-      width: 80%;
-      font-size: 100%;
+    width: 80%;
+    font-size: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .titulo {
-      font-size: 350%;
+    font-size: 350%;
   }
 
   .parra {
-      width: 90%;
-      font-size: 90%;
+    width: 90%;
+    font-size: 90%;
+  }
+}
+
+.ayuda {
+  position: fixed;
+  bottom: 1%;
+  right: 2%;
+  bottom: 5%; /* Ajusta esta propiedad para mover el contenedor hacia arriba */
+  width: 5%; /* Ajusta el ancho del contenedor según el tamaño de las imágenes */
+  height: 5%; /* Ajusta la altura del contenedor según el tamaño de las imágenes */
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.simb-pregunta {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centra la imagen */
+  width: 50%; /* Ajusta el tamaño de la imagen según sea necesario */
+  height: 50%; /* Ajusta el tamaño de la imagen según sea necesario */
+  cursor: pointer;
+}
+
+.simb-chat {
+  width: 100%; /* Ajusta el tamaño de las imágenes */
+  height: 100%; /* Ajusta el tamaño de las imágenes */
+}
+
+@media (max-width: 768px) {
+  .ayuda {
+    bottom: 3%; /* Ajusta la posición para pantallas medianas */
+    right: 3%;
+    width: 8%;
+    height: 8%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ayuda {
+    bottom: 1%; /* Ajusta la posición para pantallas pequeñas */
+    right: 5%;
+    width: 10%;
+    height: 10%;
   }
 }
