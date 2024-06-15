@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS notas;
+USE notas;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  google_id VARCHAR(255) NOT NULL,
+  nombre VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  foto VARCHAR(255),
+  UNIQUE (google_id)
+);
