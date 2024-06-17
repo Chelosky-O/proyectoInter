@@ -20,8 +20,8 @@ function createDbPool() {
     //password: "root",
     password: "1234",
     database: "notas",
-    port: 3306,
     //port: 3306,
+    port: 3307,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -88,7 +88,7 @@ passport.use(
 
         console.log("Attempting to query database...");
         const [rows] = await db.query(
-          "SELECT * FROM usuarios WHERE google_id = ?",
+          "SELECT * FROM Usuario WHERE google_id = ?",
           [profile.id]
         );
         console.log("Query successful:", rows);
@@ -96,7 +96,7 @@ passport.use(
         if (rows.length === 0) {
           console.log("Inserting new user...");
           const [result] = await db.query(
-            "INSERT INTO usuarios (google_id, nombre, email, foto) VALUES (?, ?, ?, ?)",
+            "INSERT INTO Usuario (google_id, nombre, email, foto) VALUES (?, ?, ?, ?)",
             [profile.id, profile.displayName, email, profile.photos[0].value]
           );
           console.log("Insert successful:", result);
@@ -126,7 +126,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const [rows] = await db.query("SELECT * FROM usuarios WHERE id = ?", [id]);
+    const [rows] = await db.query("SELECT * FROM Usuario WHERE id = ?", [id]);
     done(null, rows[0]);
   } catch (err) {
     done(err);

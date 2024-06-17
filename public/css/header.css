@@ -8,10 +8,10 @@
   height: 8%;
   top: 0;
   left: 0;
-  padding: 10px; /* Añadir un padding para evitar que los elementos se peguen a los bordes */
-  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho del contenedor */
+  padding: 10px;
+  box-sizing: border-box;
   min-height: 80px;
-  text-decoration: none; /* Elimina el subrayado de todos los enlaces en el header */
+  text-decoration: none;
 }
 
 .login {
@@ -22,7 +22,7 @@
   text-align: right;
   font-style: normal;
   line-height: normal;
-  margin-right: 3%; /* Empuja el enlace hacia la derecha */
+  margin-right: 3%;
 }
 
 .user-menu {
@@ -39,8 +39,8 @@
 }
 
 .user-menu .profile-pic {
-  margin-left: 0; /* Ajusta el margen según sea necesario */
-  max-width: 50%; /* Asegura que el icono no exceda el ancho del contenedor */
+  margin-left: 0;
+  max-width: 50%;
   max-height: 50%;
   height: 100%;
   border-radius: 50%;
@@ -48,8 +48,8 @@
 
 .icono {
   display: block;
-  margin-left: 10px; /* Ajusta el margen según sea necesario */
-  max-width: 100%; /* Asegura que el icono no exceda el ancho del contenedor */
+  margin-left: 10px;
+  max-width: 100%;
   max-height: 100%;
   height: 100%;
 }
@@ -65,8 +65,8 @@
 .menu {
   display: none;
   position: absolute;
-  top: 90%; /* Ajusta esto según la altura de tu header */
-  right: 20px; /* Alineado con el margen derecho de la hamburguesa */
+  top: 90%;
+  right: 20px;
   background-color: #eaeaea;
   padding: 10px;
   border-radius: 5px;
@@ -77,7 +77,7 @@
 .menu a {
   font-family: "Roboto", Helvetica;
   display: block;
-  color: #cc2936; /* Color del texto del menú */
+  color: #cc2936;
   text-decoration: none;
   padding: 10px 20px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -85,6 +85,56 @@
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #EAEAEA;
+  min-width: 130px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: var(--Rojo, #CC2936);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Roboto;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+
+  padding: 12px 16px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center; /* Añadir esta línea para centrar horizontalmente */
+  align-items: center; /* Añadir esta línea para centrar verticalmente */
+
+}
+
+
+.dropdown-content a:hover {
+  background-color: #cacaca;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#Cursos{
+  left: 50%; /* Posiciona el menú en el centro horizontal del elemento padre */
+  transform: translateX(-50%); /* Centra el menú horizontalmente */
+}
+
+#Cuenta{
+  left: 75%; /* Posiciona el menú en el centro horizontal del elemento padre */
+  transform: translateX(-50%); /* Centra el menú horizontalmente */
 }
 
 @media (max-width: 600px) {
@@ -103,5 +153,5 @@
 }
 
 a {
-  text-decoration: none; /* Quitar el subrayado */
+  text-decoration: none;
 }

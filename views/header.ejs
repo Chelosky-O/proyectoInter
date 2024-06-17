@@ -16,13 +16,30 @@
 
       <% if(typeof user !== 'undefined' && typeof user.foto !== 'undefined'){ %>
       <div class="user-menu">
-        <a class="login" href="/cursos">Cursos</a>
+        <div class="dropdown">
+          <a class="login" href="/cursos">Cursos</a>
+          <div class="dropdown-content" id="Cursos">
+            <a href="/cursos/1">1° Año</a>
+            <a href="/cursos/2">2° Año</a>
+            <a href="/cursos/3">3° Año</a>
+            <a href="/cursos/4">4° Año</a>
+            <a href="/cursos/5">5° Año</a>
+            <a href="/cursos/6">6° Año</a>
+          </div>
+        </div>
         <a class="login" href="/">Sobre Nosotros</a>
-        <a href="/user">
-          <img class="profile-pic" src="<%= user.foto %>" />
-        </a>
-      </div>
+        <div class="dropdown">
+          <a href="/user">
+            <img class="profile-pic" src="<%= user.foto %>" />
+          </a>
+          <div class="dropdown-content" id="Cuenta">
+            <a href="/cuenta">Cuenta</a>
+            <a href="/favoritos">Favoritos</a>
+            <a href="/logout">Cerrar sesión</a>
+          </div>
+        </div>
 
+      </div>
       <%} else{ %>
       <a class="login" href="/login">Inicio sesión</a>
       <img class="hamburger" src="/img/3lines.svg" />
