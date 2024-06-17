@@ -1,38 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="/css/login/globals.css" />
-    <link rel="stylesheet" href="/css/login/styleguide.css" />
-    <link rel="stylesheet" href="/css/login/style.css" />
-  </head>
-  <body>
-    <div class="frame">
-      <div class="overlap-wrapper">
-        <div class="overlap">
-          <div class="rectangle"></div>
-          <div class="div"></div>
-          <div class="component">
-            <div class="overlap-group">
-              <img class="question-lg" src="/img/question-lg.svg" />
-              <img class="chat" src="/img/chat.svg" />
-            </div>
-          </div>
-          <div class="rectangle-2"></div>
-          <div class="text-wrapper">ApuntARQ</div>
-          <p class="p">
-            Te ayuda a comunicarte y a compartir apuntes que te serán útiles en
-            tu formación profesional.
-          </p>
-          <a href="/auth/google" class="btn-google">
-            <div class="text-wrapper-2">Continuar con Google</div>
-          </a>
-          <div class="navlink">
-            <a href="/"><img class="group" src="/img/group-4489-1.svg" /> </a>
-          </div>
-          <img class="image" src="img/image-7.png" />
-        </div>
-      </div>
-    </div>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="/css/login.css" />
+  <link rel="stylesheet" href="/css/styleguide.css" />
+  <link rel="stylesheet" href="/css/globals.css" />
+  <title>Inicio de Sesión - ApuntARQ</title>
+</head>
+
+<body>
+  <%- include('header');-%>
+
+  <div class="login-page">
+    <h1 class="titulo">ApuntARQ</h1>
+    <p class="p">
+      Te ayuda a comunicarte y a compartir apuntes que te serán útiles en
+      tu formación profesional.
+    </p>
+    <a href="/auth/google" class="btn-google">
+      <img class="image-google" src="img/image-7.png" />
+      <div class="texto-login">Continuar con Google</div>
+    </a>
+  </div>
+  <div class="ayuda">
+    <img class="simb-pregunta" src="/img/question-lg-1.svg" />
+    <img class="simb-chat" src="/img/chat-2.svg" />
+  </div>
+</body>
+
 </html>

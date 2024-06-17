@@ -1,55 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="/css/user/globals.css" />
-    <link rel="stylesheet" href="/css/user/styleguide.css" />
-    <link rel="stylesheet" href="/css/user/style.css" />
-  </head>
-  <body>
-    <div class="estudiante">
-      <div class="overlap-wrapper">
-        <div class="overlap">
-          <div class="navlink">
-            <a href="/"><img class="group" src="/img/group-4489-1.svg" /> </a>
 
-            <div class="sobre-nosotros">
-              <a style="padding: 10px; margin-top: 9px">Años</a>
-              <a style="padding: 25px; margin-top: 9px; margin-right: 3px"
-                >Sobre Nosotros</a
-              >
-              <a href="/user"
-                ><img
-                  class="usuario"
-                  style="margin-top: -20px"
-                  src="<%= user.foto %>"
-              /></a>
-            </div>
-          </div>
-          <div class="component">
-            <div class="overlap-group">
-              <img class="question-lg" src="/img/question-lg-1.svg" />
-              <img class="chat" src="/img/chat-2.svg" />
-            </div>
-          </div>
-          <div class="TTULO-AO">
-            <div class="RAMOS-DE-PRIMER-a-o" style="left: 40px">Cuenta</div>
-          </div>
-          <a class="text-wrapper-2" href="/logout">Cerrar Sesión</a>
-          <div class="overlap-2">
-            <img class="img" src="<%= user.foto %>" />
-          </div>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="/css/user.css" />
+  <link rel="stylesheet" href="/css/styleguide.css" />
+  <link rel="stylesheet" href="/css/globals.css" />
+  <title>Usuario - ApuntARQ</title>
+</head>
 
-          <div class="component-2" style="margin-top: 70px">
-            <div class="text-wrapper-3"><%= user.nombre %></div>
-            <img class="vector" src="/img/vector-87-2.svg" />
-          </div>
-          <div class="component-3" style="margin-top: 70px">
-            <div class="text-wrapper-3"><%= user.email %></div>
-            <img class="vector" src="/img/vector-87-2.svg" />
-          </div>
+<body>
+  <%- include('header');-%>
+
+  <div class="container">
+    <div class="sidebar">
+      <h1 class="titulo">Cuenta</h1>
+      <img class="img" src="<%= user.foto %>" />
+      <a class="cerrar_sesion" href="/logout">Cerrar Sesión</a>
+    </div>
+    <div class="content">
+      <div class="datos_estudiante">
+        <div class="dato">
+          <span class="textouser"><%= user.nombre %></span>
+          <img class="vector" src="/img/vector-87-2.svg" />
+        </div>
+        <div class="dato">
+          <span class="textouser"><%= user.email %></span>
+          <img class="vector" src="/img/vector-87-2.svg" />
         </div>
       </div>
     </div>
-  </body>
+  </div>
+
+  <div class="ayuda">
+    <img class="simb-pregunta" src="/img/question-lg-1.svg" />
+    <img class="simb-chat" src="/img/chat-2.svg" />
+  </div>
+</body>
+
 </html>
