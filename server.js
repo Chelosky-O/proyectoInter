@@ -17,8 +17,8 @@ function createDbPool() {
   db = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "milla",
-    //password: "password1234",
+    //password: "root",
+    password: "1234",
     database: "notas",
     port: 3306,
     //port: 3306,
