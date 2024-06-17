@@ -1,0 +1,97 @@
+body {
+    background-size: cover;
+    background-position: center;
+    background-color: #F6F4F4;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container {
+    display: flex;
+    width: 90%;
+    height: 80vh;
+  }
+  
+  .titulo {
+    color: var(--Monocrome-black, #000);
+    font-family: Roboto;
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+  }
+
+  .cards {
+    margin-top: 10%;
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px,1fr));
+    grid-gap: 20px;
+    height: 100%;
+    width: 100%;
+    margin-left: 5%
+  }
+  .card{
+    display: grid;
+    grid-template-rows: max-content 200px 1fr;
+  }
+
+  .color {
+    background-color: #000;
+    width: 100%;
+    min-height: 50px;
+  }
+
+
+  /*SIMBOLO PREGUNTA*/
+  .ayuda {
+    position: fixed;
+    bottom: 1%;
+    right: 2%;
+    bottom: 5%; /* Ajusta esta propiedad para mover el contenedor hacia arriba */
+    width: 5%; /* Ajusta el ancho del contenedor según el tamaño de las imágenes */
+    height: 5%; /* Ajusta la altura del contenedor según el tamaño de las imágenes */
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    
+  }
+  
+  .simb-pregunta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra la imagen */
+    width: 50%; /* Ajusta el tamaño de la imagen según sea necesario */
+    height: 50%; /* Ajusta el tamaño de la imagen según sea necesario */
+    cursor: pointer;
+    filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+}
+  
+  .simb-chat {
+    width: 100%; /* Ajusta el tamaño de las imágenes */
+    height: 100%; /* Ajusta el tamaño de las imágenes */
+    filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+}
+  
+  @media (max-width: 768px) {
+    .ayuda {
+      bottom: 3%; /* Ajusta la posición para pantallas medianas */
+      right: 3%;
+      width: 8%;
+      height: 8%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ayuda {
+      bottom: 1%; /* Ajusta la posición para pantallas pequeñas */
+      right: 5%;
+      width: 10%;
+      height: 10%;
+    }
+  }

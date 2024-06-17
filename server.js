@@ -17,10 +17,10 @@ function createDbPool() {
   db = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "1234",
+    password: "milla",
     //password: "password1234",
     database: "notas",
-    port: 3307,
+    port: 3306,
     //port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
@@ -148,6 +148,9 @@ app.get(
     scope: ["profile", "email"],
   })
 );
+app.get("/cursos", (req, res) => {
+  res.render("cursos", { user: req.user });
+});
 
 app.get(
   "/auth/google/callback",
