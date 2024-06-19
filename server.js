@@ -148,8 +148,26 @@ app.get(
     scope: ["profile", "email"],
   })
 );
-app.get("/cursos", (req, res) => {
-  res.render("cursos", { user: req.user });
+
+app.get("/cursos/:year", async (req, res) => {
+  const year = req.params.year;
+
+  try {
+    const [rows] = await db.query("SELECT * FROM Ramo WHERE year = ?", [year]);
+
+    const primerSemestre = rows.filter(ramo => ramo.semestre === 1);
+    const segundoSemestre = rows.filter(ramo => ramo.semestre === 2);
+
+    res.render("cursos", {
+      user: req.user,
+      year: year,
+      primerSemestre: primerSemestre,
+      segundoSemestre: segundoSemestre
+    });
+  } catch (error) {
+    console.error("Error retrieving courses from the database:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.get(

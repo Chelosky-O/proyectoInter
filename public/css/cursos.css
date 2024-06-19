@@ -13,12 +13,13 @@ body {
 }
 
 .container {
-  width: 90%;
-  height: 80vh;
+  width: 85%;
+  height: 90vh;
+  margin-top: 10vh;
 }
 
 .titulo {
-  margin-top: 10vh;
+  margin-top: 2vh;
   color: var(--Monocrome-black, #000);
   font-family: Roboto;
   font-size: 38px;
@@ -27,25 +28,70 @@ body {
   line-height: normal;
   width: 100%;
   display: flex;
+  align-items: baseline; /* Alinea verticalmente los elementos */
+}
+
+.titulo h1 {
+  margin: 0;
+}
+
+.titulo .semestre {
+  font-weight: 400;
+  margin-left: 10px;
+  color: #888888;
+  color: rgba(0, 0, 0, 0.60);
+  font-family: Roboto;
+  font-size: 38px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
 }
 
 .cards {
   padding-top: 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 70px;
-  height: 100%;
-  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(499px, 499px));
+  grid-gap: 50px;
 }
+
+.separator{
+  height: 5vh;
+}
+
 .card {
-  display: grid;
-  grid-template-rows: max-content 50px 1fr;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
 .color {
   background-color: #000;
   width: 100%;
-  min-height: 50px;
+  min-height: 75px;
+  min-width: 399px;
+  /* 75 y 499 to 60 y 399 */
+}
+
+.headerramo{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: 75px; /* Puedes ajustar la altura según sea necesario */
+  /*padding: 10px;*/
+  text-align: center;
+}
+
+.nombreRamo{
+  color: #444;
+  font-family: Roboto;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
 }
 
 /*SIMBOLO PREGUNTA*/
@@ -95,3 +141,4 @@ body {
     height: 10%;
   }
 }
+
