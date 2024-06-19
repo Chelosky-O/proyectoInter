@@ -1,0 +1,215 @@
+body {
+    background-color: #fff;
+    margin: 0;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    margin-top: 10vh;
+  }
+  
+  .left-section, .right-section {
+    width: 45%;
+  }
+  
+  .titulo {
+    color: #d32f2f;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  .nombreRamo {
+    color: #444;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .descripcion {
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  .semestre-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .semestre {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .semestre.active {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  .semestre:not(.active) {
+    background-color: white;
+    color: #d32f2f;
+    border: 2px solid #d32f2f;
+  }
+  
+  .volver {
+    border: none;
+    background: none;
+    color: #444;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .right-section .resource {
+    margin-top: 10px;
+  }
+  
+  .resource-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .icon {
+    margin-right: 10px;
+  }
+  
+  .date {
+    margin-left: auto;
+    margin-right: 10px;
+    color: #999;
+  }
+  
+  .dropdown {
+    color: #999;
+  }
+  
+  .bottom-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .editar, .subir {
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .editar {
+    background-color: white;
+    color: #d32f2f;
+    border: 2px solid #d32f2f;
+  }
+  
+  .subir {
+    background-color: #d32f2f;
+    color: white;
+  }
+  
+  .ayuda {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .simb-pregunta, .simb-chat {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+  }
+  
+  /* Media Queries para Responsividad */
+  @media (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    .left-section, .right-section {
+      width: 100%;
+    }
+  
+    .right-section {
+      margin-top: 20px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .titulo {
+      font-size: 28px;
+    }
+  
+    .nombreRamo {
+      font-size: 24px;
+    }
+  
+    .descripcion {
+      font-size: 14px;
+    }
+  
+    .resource-button {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .date {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  
+    .bottom-buttons {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  
+    .editar, .subir {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .titulo {
+      font-size: 24px;
+    }
+  
+    .nombreRamo {
+      font-size: 20px;
+    }
+  
+    .descripcion {
+      font-size: 12px;
+    }
+  
+    .semestre {
+      font-size: 12px;
+      padding: 8px 16px;
+    }
+  
+    .resource-button {
+      padding: 8px;
+    }
+  
+    .icon, .date, .dropdown {
+      font-size: 14px;
+    }
+  }
+  

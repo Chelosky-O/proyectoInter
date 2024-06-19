@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS Ramo (
   nombre TEXT NOT NULL,
   year INT NOT NULL,
   semestre INT NOT NULL,
+  descripcion TEXT,
   color TEXT
 );
 

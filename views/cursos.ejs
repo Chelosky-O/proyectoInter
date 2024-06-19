@@ -17,12 +17,12 @@
       </div>
       <div class="cards">
         <% primerSemestre.forEach(ramo => { %>
-          <article class="card">
+          <a href="/ramo/<%= ramo.id %>" class="card">
             <div class="color" style="background-color: <%= ramo.color %>"></div>
             <header class="headerramo">
               <h2 class="nombreRamo"><%= ramo.nombre %></h2>
             </header>
-          </article>
+          </a>
         <% }) %>
       </div>
       <div class="separator"></div>
@@ -32,12 +32,12 @@
       </div>
       <div class="cards">
         <% segundoSemestre.forEach(ramo => { %>
-          <article class="card">
+          <a href="/ramo/<%= ramo.id %>" class="card">
             <div class="color" style="background-color: <%= ramo.color %>"></div>
             <header class="headerramo">
               <h2 class="nombreRamo"><%= ramo.nombre %></h2>
             </header>
-          </article>
+          </a>
         <% }) %>
       </div>
       <div class="separator"></div>

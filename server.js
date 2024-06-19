@@ -170,6 +170,24 @@ app.get("/cursos/:year", async (req, res) => {
   }
 });
 
+app.get("/ramo/:id", async (req, res) => {
+  const ramoId = req.params.id;
+
+  try {
+    const [rows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
+
+    if (rows.length === 0) {
+      return res.status(404).send("Ramo no encontrado");
+    }
+
+    const ramo = rows[0];
+    res.render("ramo", { user: req.user,ramo: ramo });
+  } catch (error) {
+    console.error("Error retrieving ramo from the database:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),

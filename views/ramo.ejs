@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/ramo.css" />
+    <link rel="stylesheet" href="/css/styleguide.css" />
+    <link rel="stylesheet" href="/css/globals.css" />
+    <title>Ramo - ApuntARQ</title>
+  </head>
+
+  <body>
+    <%- include('header'); -%>
+    <div class="container">
+      <div class="left-section">
+        <h1 class="titulo">RAMOS DE PRIMER AÑO</h1>
+        <h2 class="nombreRamo"><%= ramo.nombre %></h2>
+        <p class="descripcion"><%= ramo.descripcion %></p>
+        <div class="semestre-buttons">
+          <button class="semestre active">1er semestre</button>
+          <button class="semestre">2do semestre</button>
+        </div>
+        <button class="volver">← Volver</button>
+      </div>
+      <div class="right-section">
+        <div class="resource">
+          <button class="resource-button">
+            <span class="icon">☰</span>
+            Apuntes
+            <span class="date">Hace 2 semanas</span>
+            <span class="dropdown">▼</span>
+          </button>
+        </div>
+        <div class="resource">
+          <button class="resource-button">
+            <span class="icon">☰</span>
+            Trabajos
+            <span class="date">Hace 2 semanas</span>
+            <span class="dropdown">▼</span>
+          </button>
+        </div>
+        <div class="resource">
+          <button class="resource-button">
+            <span class="icon">☰</span>
+            PDFs
+            <span class="date">Hace 2 semanas</span>
+            <span class="dropdown">▼</span>
+          </button>
+        </div>
+        <div class="resource">
+          <button class="resource-button">
+            <span class="icon">☰</span>
+            Planos/Croquis
+            <span class="date">Hace 2 semanas</span>
+            <span class="dropdown">▼</span>
+          </button>
+        </div>
+        <div class="bottom-buttons">
+          <button class="editar">✏️ Editar</button>
+          <button class="subir">+ Subir</button>
+        </div>
+      </div>
+    </div>
+    <div class="ayuda">
+      <img class="simb-pregunta" src="/img/question-lg-1.svg" />
+      <img class="simb-chat" src="/img/chat-2.svg" />
+    </div>
+  </body>
+</html>
