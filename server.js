@@ -4,12 +4,17 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const mysql = require("mysql2/promise");
 const path = require("path");
+const multer = require("multer");
+
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
+
 // Configura la base de datos
 let db;
 
@@ -174,19 +179,30 @@ app.get("/ramo/:id", async (req, res) => {
   const ramoId = req.params.id;
 
   try {
-    const [rows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
+    const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
 
-    if (rows.length === 0) {
+    if (ramoRows.length === 0) {
       return res.status(404).send("Ramo no encontrado");
     }
 
-    const ramo = rows[0];
-    res.render("ramo", { user: req.user,ramo: ramo });
+    const ramo = ramoRows[0];
+
+    const [archivosRows] = await db.query("SELECT * FROM Archivo WHERE ramo = ?", [ramoId]);
+
+    const archivos = {
+      Apuntes: archivosRows.filter(archivo => archivo.categoria === "Apuntes"),
+      Trabajos: archivosRows.filter(archivo => archivo.categoria === "Trabajos"),
+      PDFs: archivosRows.filter(archivo => archivo.categoria === "PDFs"),
+      Planos: archivosRows.filter(archivo => archivo.categoria === "Planos")
+    };
+
+    res.render("ramo", { user: req.user, ramo: ramo, archivos: archivos });
   } catch (error) {
     console.error("Error retrieving ramo from the database:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 app.get(
   "/auth/google/callback",
@@ -220,6 +236,55 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
   });
 });
+
+// Configurar multer para la subida de archivos
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'public/uploads'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 1024 } // 1 GB
+}).single('file');
+
+
+app.post('/upload', (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).send('Error al subir el archivo. Asegúrese de que el archivo sea menor de 1 GB.');
+    }
+
+    // Datos del archivo subido
+    const { originalname, filename } = req.file;
+    const directorio = filename; // Guarda solo el nombre del archivo
+
+    // Datos adicionales del formulario
+    const { categoria, profesor, ramo, year, semestre } = req.body;
+
+    // Datos del usuario
+    const id_usuario = req.user.id;
+
+    // Guardar en la base de datos
+    try {
+      const [result] = await db.query(
+        "INSERT INTO Archivo (id_usuario, ramo, directorio, profesor, nombre, year, semestre, categoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [id_usuario, ramo, directorio, profesor, originalname, year, semestre, categoria]
+      );
+      console.log("Archivo guardado en la base de datos:", result);
+
+      res.send('Archivo subido y guardado con éxito.');
+    } catch (dbError) {
+      console.error("Error al guardar el archivo en la base de datos:", dbError);
+      res.status(500).send("Error interno del servidor al guardar el archivo.");
+    }
+  });
+});
+
 
 // Inicia el servidor
 app.listen(3000, () => {

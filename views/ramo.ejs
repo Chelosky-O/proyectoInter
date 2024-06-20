@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="/css/globals.css" />
     <title>Ramo - ApuntARQ</title>
   </head>
-<style>
-  
-</style>
   <body>
     <%- include('header'); -%>
     <div class="container">
@@ -32,40 +29,68 @@
       </div>
       <div class="right-section">
         <div class="resource">
-          <button class="resource-button">
+          <button class="resource-button" onclick="toggleCategory('Apuntes')">
             <span class="icon">☰</span>
             Apuntes
             <span class="date">Hace 2 semanas</span>
             <span class="dropdown">▼</span>
           </button>
+          <div class="category-content" id="Apuntes">
+            <% archivos.Apuntes.forEach(archivo => { %>
+              <div class="archivo">
+                <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
+              </div>
+            <% }) %>
+          </div>
         </div>
         <div class="resource">
-          <button class="resource-button">
+          <button class="resource-button" onclick="toggleCategory('Trabajos')">
             <span class="icon">☰</span>
             Trabajos
             <span class="date">Hace 2 semanas</span>
             <span class="dropdown">▼</span>
           </button>
+          <div class="category-content" id="Trabajos">
+            <% archivos.Trabajos.forEach(archivo => { %>
+              <div class="archivo">
+                <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
+              </div>
+            <% }) %>
+          </div>
         </div>
         <div class="resource">
-          <button class="resource-button">
+          <button class="resource-button" onclick="toggleCategory('PDFs')">
             <span class="icon">☰</span>
             PDFs
             <span class="date">Hace 2 semanas</span>
             <span class="dropdown">▼</span>
           </button>
+          <div class="category-content" id="PDFs">
+            <% archivos.PDFs.forEach(archivo => { %>
+              <div class="archivo">
+                <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
+              </div>
+            <% }) %>
+          </div>
         </div>
         <div class="resource">
-          <button class="resource-button">
+          <button class="resource-button" onclick="toggleCategory('Planos')">
             <span class="icon">☰</span>
             Planos/Croquis
             <span class="date">Hace 2 semanas</span>
             <span class="dropdown">▼</span>
           </button>
+          <div class="category-content" id="Planos">
+            <% archivos.Planos.forEach(archivo => { %>
+              <div class="archivo">
+                <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
+              </div>
+            <% }) %>
+          </div>
         </div>
         <div class="bottom-buttons">
           <button class="editar">✏️ Editar</button>
-          <button class="subir">+ Subir</button>
+          <button class="subir" onclick="openModal()">+ Subir</button>
         </div>
       </div>
     </div>
@@ -73,5 +98,66 @@
       <img class="simb-pregunta" src="/img/question-lg-1.svg" />
       <img class="simb-chat" src="/img/chat-2.svg" />
     </div>
+
+    <!-- Modal -->
+    <div id="uploadModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="ramo" value="<%= ramo.id %>">
+          <input type="hidden" name="year" value="<%= ramo.year %>">
+          <input type="hidden" name="semestre" value="<%= ramo.semestre %>">
+          <div class="form-group">
+            <label for="file">Archivo</label>
+            <input type="file" id="file" name="file" required />
+          </div>
+          <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" name="categoria">
+              <option value="Apuntes">Apuntes</option>
+              <option value="Trabajos">Trabajos</option>
+              <option value="PDFs">PDFs</option>
+              <option value="Planos">Planos/Croquis</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="profesor">Profesor</label>
+            <input type="text" id="profesor" name="profesor" />
+          </div>
+          <div class="form-actions">
+            <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
+            <button type="submit" class="accept">Aceptar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function openModal() {
+        document.getElementById('uploadModal').style.display = 'block';
+      }
+
+      function closeModal() {
+        document.getElementById('uploadModal').style.display = 'none';
+      }
+
+      function toggleCategory(category) {
+        var content = document.getElementById(category);
+        if (content.style.display === "none" || content.style.display === "") {
+          content.style.display = "block";
+        } else {
+          content.style.display = "none";
+        }
+      }
+
+      document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        const fileInput = document.getElementById('file');
+        const file = fileInput.files[0];
+        if (file.size > 1024 * 1024 * 1024) { // 1 GB
+          alert('El archivo es demasiado grande. El tamaño máximo permitido es de 1 GB.');
+          event.preventDefault();
+        }
+      });
+    </script>
   </body>
 </html>

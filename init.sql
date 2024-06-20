@@ -24,13 +24,15 @@ CREATE TABLE IF NOT EXISTS Ramo (
 -- Tabla Archivo
 CREATE TABLE IF NOT EXISTS Archivo (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
   ramo INT NOT NULL,
-  directorio INT NOT NULL,
+  directorio TEXT NOT NULL,
   profesor TEXT,
   nombre TEXT NOT NULL,
   year INT NOT NULL,
   semestre INT NOT NULL,
   categoria TEXT,
+  FOREIGN KEY (id_usuario) REFERENCES Usuario(id),
   FOREIGN KEY (ramo) REFERENCES Ramo(id)
 );
 
