@@ -7,17 +7,26 @@
     <link rel="stylesheet" href="/css/globals.css" />
     <title>Ramo - ApuntARQ</title>
   </head>
-
+<style>
+  
+</style>
   <body>
     <%- include('header'); -%>
     <div class="container">
       <div class="left-section">
         <h1 class="titulo">RAMOS DE PRIMER AÑO</h1>
+        <div class="separator"></div>
         <h2 class="nombreRamo"><%= ramo.nombre %></h2>
+        <div class="separator"></div>
         <p class="descripcion"><%= ramo.descripcion %></p>
         <div class="semestre-buttons">
+          <% if(ramo.semestre == 1){ %>
           <button class="semestre active">1er semestre</button>
           <button class="semestre">2do semestre</button>
+          <%} else{ %>
+            <button class="semestre">1er semestre</button>
+            <button class="semestre active">2do semestre</button>
+          <% } %>
         </div>
         <button class="volver">← Volver</button>
       </div>
