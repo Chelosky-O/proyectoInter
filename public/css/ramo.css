@@ -369,3 +369,67 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
 .archivo a:hover {
   text-decoration: underline;
 }
+/* Estilos para la ventana emergente */
+.popup {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  position: relative;
+  min-width: 30%;
+  min-height: 20%;
+  text-align: center;
+  border-radius: 18px;
+  border: 1px solid #000;
+  background: var(--White, #FFF);
+}
+
+.popup-content .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-header img {
+  margin-right: 10px; /* Ajusta el espacio entre la imagen y el título */
+}
+
+.popup-content h2 {
+  margin: 0;
+  color: var(--Rojo, #CC2936);
+  font-family: "Roboto Condensed";
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+#popup-message {
+  margin-top: 5%;
+  color: #000;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 118.266%; /* 28.384px */
+}

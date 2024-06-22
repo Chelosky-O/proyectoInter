@@ -256,7 +256,7 @@ const upload = multer({
 app.post('/upload', (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      return res.status(400).send('Error al subir el archivo. Asegúrese de que el archivo sea menor de 1 GB.');
+      return res.redirect(`/ramo/${req.body.ramo}?status=error`);
     }
 
     // Datos del archivo subido
@@ -277,13 +277,14 @@ app.post('/upload', (req, res) => {
       );
       console.log("Archivo guardado en la base de datos:", result);
 
-      res.send('Archivo subido y guardado con éxito.');
+      res.redirect(`/ramo/${ramo}?status=success`);
     } catch (dbError) {
       console.error("Error al guardar el archivo en la base de datos:", dbError);
-      res.status(500).send("Error interno del servidor al guardar el archivo.");
+      res.redirect(`/ramo/${ramo}?status=error`);
     }
   });
 });
+
 
 
 // Inicia el servidor
