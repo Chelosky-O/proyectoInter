@@ -15,6 +15,10 @@ body {
   width: 45%;
 }
 
+.see-all {
+  float: right;
+}
+
 .titulo {
   color: var(--Rojo, #CC2936);
   font-family: "Roboto Condensed";
@@ -369,6 +373,7 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
 .archivo a:hover {
   text-decoration: underline;
 }
+
 /* Estilos para la ventana emergente */
 .popup {
   display: none; /* Oculto por defecto */

@@ -155,7 +155,21 @@ app.get(
 );
 
 app.get("/cursos/:year", async (req, res) => {
-  const year = req.params.year;
+  const year = parseInt(req.params.year);
+
+  function getYearText(year) {
+    switch (year) {
+      case 1: return "PRIMER AÑO";
+      case 2: return "SEGUNDO AÑO";
+      case 3: return "TERCER AÑO";
+      case 4: return "CUARTO AÑO";
+      case 5: return "QUINTO AÑO";
+      case 6: return "SEXTO AÑO";
+      default: return "AÑO DESCONOCIDO";
+    }
+  }
+
+  const yearText = getYearText(year);
 
   try {
     const [rows] = await db.query("SELECT * FROM Ramo WHERE year = ?", [year]);
@@ -165,7 +179,7 @@ app.get("/cursos/:year", async (req, res) => {
 
     res.render("cursos", {
       user: req.user,
-      year: year,
+      yearText: yearText,
       primerSemestre: primerSemestre,
       segundoSemestre: segundoSemestre
     });
@@ -175,8 +189,21 @@ app.get("/cursos/:year", async (req, res) => {
   }
 });
 
+
 app.get("/ramo/:id", async (req, res) => {
   const ramoId = req.params.id;
+
+  function getYearText(year) {
+    switch (year) {
+      case 1: return "PRIMER AÑO";
+      case 2: return "SEGUNDO AÑO";
+      case 3: return "TERCER AÑO";
+      case 4: return "CUARTO AÑO";
+      case 5: return "QUINTO AÑO";
+      case 6: return "SEXTO AÑO";
+      default: return "AÑO DESCONOCIDO";
+    }
+  }
 
   try {
     const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
@@ -186,6 +213,7 @@ app.get("/ramo/:id", async (req, res) => {
     }
 
     const ramo = ramoRows[0];
+    const yearText = getYearText(ramo.year);
 
     const [archivosRows] = await db.query("SELECT * FROM Archivo WHERE ramo = ?", [ramoId]);
 
@@ -196,12 +224,49 @@ app.get("/ramo/:id", async (req, res) => {
       Planos: archivosRows.filter(archivo => archivo.categoria === "Planos")
     };
 
-    res.render("ramo", { user: req.user, ramo: ramo, archivos: archivos });
+    res.render("ramo", { user: req.user, ramo: ramo, yearText: yearText, archivos: archivos });
   } catch (error) {
     console.error("Error retrieving ramo from the database:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
+function getYearText(year) {
+  switch(year) {
+    case 1: return 'Primer Año';
+    case 2: return 'Segundo Año';
+    case 3: return 'Tercer Año';
+    case 4: return 'Cuarto Año';
+    case 5: return 'Quinto Año';
+    case 6: return 'Sexto Año';
+    default: return 'Año desconocido';
+  }
+}
+
+app.get("/ramo/:id/:category", async (req, res) => {
+  const ramoId = req.params.id;
+  const category = req.params.category;
+
+  try {
+    const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
+
+    if (ramoRows.length === 0) {
+      return res.status(404).send("Ramo no encontrado");
+    }
+
+    const ramo = ramoRows[0];
+    const yearText = getYearText(ramo.year);
+
+    const [archivosRows] = await db.query("SELECT * FROM Archivo WHERE ramo = ? AND categoria = ?", [ramoId, category]);
+
+    res.render("categoria", { user: req.user, ramo: ramo, yearText: yearText, archivos: archivosRows, category: category });
+  } catch (error) {
+    console.error("Error retrieving archivos from the database:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
 
 
 app.get(

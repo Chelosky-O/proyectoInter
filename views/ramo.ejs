@@ -11,7 +11,7 @@
   <%- include('header'); -%>
   <div class="container">
     <div class="left-section">
-      <h1 class="titulo">RAMOS DE PRIMER AÑO</h1>
+      <h1 class="titulo">RAMOS DE <%= yearText %></h1>
       <div class="separator"></div>
       <h2 class="nombreRamo"><%= ramo.nombre %></h2>
       <div class="separator"></div>
@@ -25,7 +25,7 @@
           <button class="semestre active">2do semestre</button>
         <% } %>
       </div>
-      <button class="volver">← Volver</button>
+      <button class="volver" onclick="history.back()">← Volver</button>
     </div>
     <div class="right-section">
       <div class="resource">
@@ -36,6 +36,9 @@
           <span class="dropdown">▼</span>
         </button>
         <div class="category-content" id="Apuntes">
+          <div class="see-all" id="seeAllApuntes" style="display:none;">
+            <a href="/ramo/<%= ramo.id %>/apuntes">Ver todo</a>
+          </div>
           <% archivos.Apuntes.forEach(archivo => { %>
             <div class="archivo">
               <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
@@ -51,6 +54,9 @@
           <span class="dropdown">▼</span>
         </button>
         <div class="category-content" id="Trabajos">
+          <div class="see-all" id="seeAllTrabajos" style="display:none;">
+            <a href="/ramo/<%= ramo.id %>/trabajos">Ver todo</a>
+          </div>
           <% archivos.Trabajos.forEach(archivo => { %>
             <div class="archivo">
               <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
@@ -66,6 +72,9 @@
           <span class="dropdown">▼</span>
         </button>
         <div class="category-content" id="PDFs">
+          <div class="see-all" id="seeAllPDFs" style="display:none;">
+            <a href="/ramo/<%= ramo.id %>/pdfs">Ver todo</a>
+          </div>
           <% archivos.PDFs.forEach(archivo => { %>
             <div class="archivo">
               <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
@@ -81,6 +90,9 @@
           <span class="dropdown">▼</span>
         </button>
         <div class="category-content" id="Planos">
+          <div class="see-all" id="seeAllPlanos" style="display:none;">
+            <a href="/ramo/<%= ramo.id %>/planos">Ver todo</a>
+          </div>
           <% archivos.Planos.forEach(archivo => { %>
             <div class="archivo">
               <a href="/uploads/<%= archivo.directorio %>" download><%= archivo.nombre %></a>
@@ -143,8 +155,6 @@
       <p id="popup-message"></p>
     </div>
   </div>
-  
-
 
   <script>
     function openModal() {
@@ -157,12 +167,15 @@
 
     function toggleCategory(category, button) {
       var content = document.getElementById(category);
+      var seeAll = document.getElementById('seeAll' + category);
       var dropdown = button.querySelector('.dropdown');
       if (content.style.display === "none" || content.style.display === "") {
         content.style.display = "block";
+        seeAll.style.display = "block";
         dropdown.innerHTML = '▲';
       } else {
         content.style.display = "none";
+        seeAll.style.display = "none";
         dropdown.innerHTML = '▼';
       }
     }
