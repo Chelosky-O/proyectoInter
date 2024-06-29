@@ -13,6 +13,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 
 // Configura la base de datos
@@ -189,47 +191,31 @@ app.get("/cursos/:year", async (req, res) => {
   }
 });
 
-
 app.get("/ramo/:id", async (req, res) => {
   const ramoId = req.params.id;
 
-  function getYearText(year) {
-    switch (year) {
-      case 1: return "PRIMER AÑO";
-      case 2: return "SEGUNDO AÑO";
-      case 3: return "TERCER AÑO";
-      case 4: return "CUARTO AÑO";
-      case 5: return "QUINTO AÑO";
-      case 6: return "SEXTO AÑO";
-      default: return "AÑO DESCONOCIDO";
-    }
-  }
-
   try {
     const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
-
     if (ramoRows.length === 0) {
       return res.status(404).send("Ramo no encontrado");
     }
-
     const ramo = ramoRows[0];
-    const yearText = getYearText(ramo.year);
 
-    const [archivosRows] = await db.query("SELECT * FROM Archivo WHERE ramo = ?", [ramoId]);
+    const categories = ['Apuntes', 'Trabajos', 'PDFs', 'Planos'];
+    const archivos = {};
+    for (const category of categories) {
+      const [archivoRows] = await db.query("SELECT * FROM Archivo WHERE ramo = ? AND categoria = ? LIMIT 4", [ramoId, category]);
+      archivos[category] = archivoRows;
+    }
 
-    const archivos = {
-      Apuntes: archivosRows.filter(archivo => archivo.categoria === "Apuntes"),
-      Trabajos: archivosRows.filter(archivo => archivo.categoria === "Trabajos"),
-      PDFs: archivosRows.filter(archivo => archivo.categoria === "PDFs"),
-      Planos: archivosRows.filter(archivo => archivo.categoria === "Planos")
-    };
-
-    res.render("ramo", { user: req.user, ramo: ramo, yearText: yearText, archivos: archivos });
+    res.render("ramo", { user: req.user, ramo, archivos, yearText: getYearText(ramo.year) });
   } catch (error) {
-    console.error("Error retrieving ramo from the database:", error);
+    console.error("Error retrieving archivos from the database:", error);
     res.status(500).send("Internal Server Error");
   }
 });
+
+
 
 function getYearText(year) {
   switch(year) {
@@ -243,10 +229,14 @@ function getYearText(year) {
   }
 }
 
+function capitalizeFirstLetter(string) {
+  return string.replace(/^\w/, (c) => c.toUpperCase());
+}
+
 app.get("/ramo/:id/:category", async (req, res) => {
   const ramoId = req.params.id;
-  const category = req.params.category;
-
+  let category = req.params.category;
+  category = capitalizeFirstLetter(category);
   try {
     const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
 
@@ -267,6 +257,27 @@ app.get("/ramo/:id/:category", async (req, res) => {
 });
 
 
+app.get("/comentarios", async (req, res) => {
+  const { ramo, categoria } = req.query;
+  try {
+    const [commentsRows] = await db.query("SELECT Comentarios.*, Usuario.nombre FROM Comentarios JOIN Usuario ON Comentarios.id_usuario = Usuario.id WHERE id_ramo = ? AND categoria = ?", [ramo, categoria]);
+    res.json(commentsRows);
+  } catch (error) {
+    console.error("Error retrieving comments from the database:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/comentario", async (req, res) => {
+  const { id_usuario, comentario, id_ramo, categoria } = req.body;
+  try {
+    await db.query("INSERT INTO Comentarios (id_usuario, comentario, fecha, id_ramo, categoria) VALUES (?, ?, NOW(), ?, ?)", [id_usuario, comentario, id_ramo, categoria]);
+    res.redirect(`/ramo/${id_ramo}/${categoria}`);
+  } catch (error) {
+    console.error("Error saving comment to the database:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 
 app.get(

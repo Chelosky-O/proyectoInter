@@ -50,8 +50,9 @@ CREATE TABLE IF NOT EXISTS Comentarios (
   id INT AUTO_INCREMENT PRIMARY KEY,
   id_usuario INT NOT NULL,
   comentario TEXT,
-  id_archivo INT NOT NULL,
   fecha DATE,
+  id_ramo INT NOT NULL,
+  categoria TEXT,
   FOREIGN KEY (id_usuario) REFERENCES Usuario(id),
-  FOREIGN KEY (id_archivo) REFERENCES Archivo(id)
+  FOREIGN KEY (id_ramo) REFERENCES Ramo(id)
 );

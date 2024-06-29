@@ -16,7 +16,8 @@ body {
 }
 
 .see-all {
-  float: right;
+  text-align: right; /* Alinear a la derecha */
+  width: 100%; /* Asegurar que ocupe todo el ancho del contenedor */
 }
 
 .titulo {
@@ -359,10 +360,16 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
 .category-content {
   display: none;
   padding-left: 20px;
+  display: flex; /* Cambiar a flex para que los elementos se dispongan en una fila */
+  flex-wrap: wrap; /* Permitir que los elementos se envuelvan si no caben en una sola fila */
 }
 
 .archivo {
-  margin: 10px 0;
+  margin: 10px; /* Espaciado entre los elementos */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .archivo a {
@@ -373,6 +380,33 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
 .archivo a:hover {
   text-decoration: underline;
 }
+
+.archivo-icono {
+  width: 170px;
+  height: 125px;
+  background-color: #d32f2f;
+  margin-bottom: 10px;
+  border-radius: 30px;
+}
+
+.archivo-nombre {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  max-width: 100px; /* Ajustar el valor según sea necesario */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.archivo-descargar {
+  font-size: 14px;
+  color: #888;
+}
+
+
+
+/* El resto de tu CSS permanece igual */
 
 /* Estilos para la ventana emergente */
 .popup {
