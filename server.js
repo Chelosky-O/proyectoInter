@@ -6,16 +6,14 @@ const mysql = require("mysql2/promise");
 const path = require("path");
 const multer = require("multer");
 
-
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 
 // Configura la base de datos
 let db;
@@ -28,7 +26,7 @@ function createDbPool() {
     password: "1234",
     database: "notas",
     //port: 3306,
-    port: 3307,
+    port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -161,13 +159,20 @@ app.get("/cursos/:year", async (req, res) => {
 
   function getYearText(year) {
     switch (year) {
-      case 1: return "PRIMER AÑO";
-      case 2: return "SEGUNDO AÑO";
-      case 3: return "TERCER AÑO";
-      case 4: return "CUARTO AÑO";
-      case 5: return "QUINTO AÑO";
-      case 6: return "SEXTO AÑO";
-      default: return "AÑO DESCONOCIDO";
+      case 1:
+        return "PRIMER AÑO";
+      case 2:
+        return "SEGUNDO AÑO";
+      case 3:
+        return "TERCER AÑO";
+      case 4:
+        return "CUARTO AÑO";
+      case 5:
+        return "QUINTO AÑO";
+      case 6:
+        return "SEXTO AÑO";
+      default:
+        return "AÑO DESCONOCIDO";
     }
   }
 
@@ -176,14 +181,14 @@ app.get("/cursos/:year", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM Ramo WHERE year = ?", [year]);
 
-    const primerSemestre = rows.filter(ramo => ramo.semestre === 1);
-    const segundoSemestre = rows.filter(ramo => ramo.semestre === 2);
+    const primerSemestre = rows.filter((ramo) => ramo.semestre === 1);
+    const segundoSemestre = rows.filter((ramo) => ramo.semestre === 2);
 
     res.render("cursos", {
       user: req.user,
       yearText: yearText,
       primerSemestre: primerSemestre,
-      segundoSemestre: segundoSemestre
+      segundoSemestre: segundoSemestre,
     });
   } catch (error) {
     console.error("Error retrieving courses from the database:", error);
@@ -195,37 +200,52 @@ app.get("/ramo/:id", async (req, res) => {
   const ramoId = req.params.id;
 
   try {
-    const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
+    const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [
+      ramoId,
+    ]);
     if (ramoRows.length === 0) {
       return res.status(404).send("Ramo no encontrado");
     }
     const ramo = ramoRows[0];
 
-    const categories = ['Apuntes', 'Trabajos', 'PDFs', 'Planos'];
+    const categories = ["Apuntes", "Trabajos", "PDFs", "Planos"];
     const archivos = {};
     for (const category of categories) {
-      const [archivoRows] = await db.query("SELECT * FROM Archivo WHERE ramo = ? AND categoria = ? LIMIT 4", [ramoId, category]);
+      const [archivoRows] = await db.query(
+        "SELECT * FROM Archivo WHERE ramo = ? AND categoria = ? LIMIT 4",
+        [ramoId, category]
+      );
       archivos[category] = archivoRows;
     }
 
-    res.render("ramo", { user: req.user, ramo, archivos, yearText: getYearText(ramo.year) });
+    res.render("ramo", {
+      user: req.user,
+      ramo,
+      archivos,
+      yearText: getYearText(ramo.year),
+    });
   } catch (error) {
     console.error("Error retrieving archivos from the database:", error);
     res.status(500).send("Internal Server Error");
   }
 });
 
-
-
 function getYearText(year) {
-  switch(year) {
-    case 1: return 'Primer Año';
-    case 2: return 'Segundo Año';
-    case 3: return 'Tercer Año';
-    case 4: return 'Cuarto Año';
-    case 5: return 'Quinto Año';
-    case 6: return 'Sexto Año';
-    default: return 'Año desconocido';
+  switch (year) {
+    case 1:
+      return "PRIMER AÑO";
+    case 2:
+      return "SEGUNDO AÑO";
+    case 3:
+      return "TERCER AÑO";
+    case 4:
+      return "CUARTO AÑO";
+    case 5:
+      return "QUINTO AÑO";
+    case 6:
+      return "SEXTO AÑO";
+    default:
+      return "Año desconocido";
   }
 }
 
@@ -238,7 +258,9 @@ app.get("/ramo/:id/:category", async (req, res) => {
   let category = req.params.category;
   category = capitalizeFirstLetter(category);
   try {
-    const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [ramoId]);
+    const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [
+      ramoId,
+    ]);
 
     if (ramoRows.length === 0) {
       return res.status(404).send("Ramo no encontrado");
@@ -247,20 +269,31 @@ app.get("/ramo/:id/:category", async (req, res) => {
     const ramo = ramoRows[0];
     const yearText = getYearText(ramo.year);
 
-    const [archivosRows] = await db.query("SELECT * FROM Archivo WHERE ramo = ? AND categoria = ?", [ramoId, category]);
+    const [archivosRows] = await db.query(
+      "SELECT * FROM Archivo WHERE ramo = ? AND categoria = ?",
+      [ramoId, category]
+    );
 
-    res.render("categoria", { user: req.user, ramo: ramo, yearText: yearText, archivos: archivosRows, category: category });
+    res.render("categoria", {
+      user: req.user,
+      ramo: ramo,
+      yearText: yearText,
+      archivos: archivosRows,
+      category: category,
+    });
   } catch (error) {
     console.error("Error retrieving archivos from the database:", error);
     res.status(500).send("Internal Server Error");
   }
 });
 
-
 app.get("/comentarios", async (req, res) => {
   const { ramo, categoria } = req.query;
   try {
-    const [commentsRows] = await db.query("SELECT Comentarios.*, Usuario.nombre FROM Comentarios JOIN Usuario ON Comentarios.id_usuario = Usuario.id WHERE id_ramo = ? AND categoria = ?", [ramo, categoria]);
+    const [commentsRows] = await db.query(
+      "SELECT Comentarios.*, Usuario.nombre FROM Comentarios JOIN Usuario ON Comentarios.id_usuario = Usuario.id WHERE id_ramo = ? AND categoria = ?",
+      [ramo, categoria]
+    );
     res.json(commentsRows);
   } catch (error) {
     console.error("Error retrieving comments from the database:", error);
@@ -271,14 +304,16 @@ app.get("/comentarios", async (req, res) => {
 app.post("/comentario", async (req, res) => {
   const { id_usuario, comentario, id_ramo, categoria } = req.body;
   try {
-    await db.query("INSERT INTO Comentarios (id_usuario, comentario, fecha, id_ramo, categoria) VALUES (?, ?, NOW(), ?, ?)", [id_usuario, comentario, id_ramo, categoria]);
+    await db.query(
+      "INSERT INTO Comentarios (id_usuario, comentario, fecha, id_ramo, categoria) VALUES (?, ?, NOW(), ?, ?)",
+      [id_usuario, comentario, id_ramo, categoria]
+    );
     res.redirect(`/ramo/${id_ramo}/${categoria}`);
   } catch (error) {
     console.error("Error saving comment to the database:", error);
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.get(
   "/auth/google/callback",
@@ -316,20 +351,19 @@ app.get("/logout", (req, res) => {
 // Configurar multer para la subida de archivos
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'public/uploads'));
+    cb(null, path.join(__dirname, "public/uploads"));
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
-  }
+  },
 });
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1024 * 1024 * 1024 } // 1 GB
-}).single('file');
+  limits: { fileSize: 1024 * 1024 * 1024 }, // 1 GB
+}).single("file");
 
-
-app.post('/upload', (req, res) => {
+app.post("/upload", (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
       return res.redirect(`/ramo/${req.body.ramo}?status=error`);
@@ -349,19 +383,29 @@ app.post('/upload', (req, res) => {
     try {
       const [result] = await db.query(
         "INSERT INTO Archivo (id_usuario, ramo, directorio, profesor, nombre, year, semestre, categoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [id_usuario, ramo, directorio, profesor, originalname, year, semestre, categoria]
+        [
+          id_usuario,
+          ramo,
+          directorio,
+          profesor,
+          originalname,
+          year,
+          semestre,
+          categoria,
+        ]
       );
       console.log("Archivo guardado en la base de datos:", result);
 
       res.redirect(`/ramo/${ramo}?status=success`);
     } catch (dbError) {
-      console.error("Error al guardar el archivo en la base de datos:", dbError);
+      console.error(
+        "Error al guardar el archivo en la base de datos:",
+        dbError
+      );
       res.redirect(`/ramo/${ramo}?status=error`);
     }
   });
 });
-
-
 
 // Inicia el servidor
 app.listen(3000, () => {
