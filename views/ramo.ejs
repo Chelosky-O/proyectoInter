@@ -39,15 +39,15 @@
           <div class="see-all" id="seeAllApuntes" style="display:none;">
             <a href="/ramo/<%= ramo.id %>/apuntes">Ver todo</a>
           </div>
-          <% archivos.Apuntes.forEach(archivo => { %>
-            <div class="archivo">
-              <div class="archivo-icono"></div>
-              <a href="/uploads/<%= archivo.directorio %>" download>
-                <div class="archivo-nombre"><%= archivo.nombre %></div>
-                <div class="archivo-descargar">⇩</div>
-              </a>
-            </div>
-          <% }) %>
+        <% archivos.Apuntes.forEach(archivo => { %>
+          <div class="archivo">
+            <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
+            <a href="/uploads/<%= archivo.directorio %>" download>
+              <div class="archivo-nombre"><%= archivo.nombre %></div>
+              <div class="archivo-descargar">⇩</div>
+            </a>
+          </div>
+        <% }) %>
         </div>
       </div>
       <div class="resource">
@@ -63,7 +63,7 @@
           </div>
           <% archivos.Trabajos.forEach(archivo => { %>
             <div class="archivo">
-              <div class="archivo-icono"></div>
+              <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
               <a href="/uploads/<%= archivo.directorio %>" download>
                 <div class="archivo-nombre"><%= archivo.nombre %></div>
                 <div class="archivo-descargar">⇩</div>
@@ -85,7 +85,7 @@
           </div>
           <% archivos.PDFs.forEach(archivo => { %>
             <div class="archivo">
-              <div class="archivo-icono"></div>
+              <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
               <a href="/uploads/<%= archivo.directorio %>" download>
                 <div class="archivo-nombre"><%= archivo.nombre %></div>
                 <div class="archivo-descargar">⇩</div>
@@ -107,7 +107,7 @@
           </div>
           <% archivos.Planos.forEach(archivo => { %>
             <div class="archivo">
-              <div class="archivo-icono"></div>
+              <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
               <a href="/uploads/<%= archivo.directorio %>" download>
                 <div class="archivo-nombre"><%= archivo.nombre %></div>
                 <div class="archivo-descargar">⇩</div>
@@ -172,6 +172,16 @@
     </div>
   </div>
 
+  <!-- Modal para mostrar el archivo -->
+  <div id="fileModal" class="file-modal">
+    <div class="file-modal-content">
+      <span class="close" onclick="closeFileModal()">&times;</span>
+      <iframe id="fileViewer" src="" frameborder="0"></iframe>
+    </div>
+  </div>
+
+    <!-- Contenedor del archivo -->
+
   <script>
     function openModal() {
       document.getElementById('uploadModal').style.display = 'block';
@@ -179,6 +189,10 @@
     
     function closeModal() {
       document.getElementById('uploadModal').style.display = 'none';
+    }
+    
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
     }
     
     function toggleCategory(category, button) {
@@ -195,18 +209,7 @@
         dropdown.innerHTML = '▼';
       }
     }
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      ['Apuntes', 'Trabajos', 'PDFs', 'Planos'].forEach(function(category) {
-        document.getElementById(category).style.display = 'none';
-        document.getElementById('seeAll' + category).style.display = 'none';
-      });
-    });
-    
-    function closePopup() {
-      document.getElementById('popup').style.display = 'none';
-    }
-    
+
     document.getElementById('uploadForm').addEventListener('submit', function(event) {
       const fileInput = document.getElementById('file');
       const file = fileInput.files[0];
@@ -215,22 +218,43 @@
         event.preventDefault();
       }
     });
-    
-    // Mostrar el popup si hay un parámetro de consulta status
-    window.onload = function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const status = urlParams.get('status');
-      if (status) {
-        const popup = document.getElementById('popup');
-        const message = document.getElementById('popup-message');
-        if (status === 'success') {
-          message.innerText = 'Archivo subido con éxito.';
-        } else {
-          message.innerText = 'Error al subir el archivo. Asegúrese de que el archivo sea menor de 1 GB.';
-        }
-        popup.style.display = 'flex';
-      }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      ['Apuntes', 'Trabajos', 'PDFs', 'Planos'].forEach(function(category) {
+        document.getElementById(category).style.display = 'none';
+        document.getElementById('seeAll' + category).style.display = 'none';
+      });
+    });
+
+    function openFileModal(fileUrl) {
+      var modal = document.getElementById('fileModal');
+      var fileViewer = document.getElementById('fileViewer');
+      fileViewer.src = fileUrl;
+      modal.style.display = 'block';
     }
-    </script>
+    
+    function closeFileModal() {
+      var modal = document.getElementById('fileModal');
+      var fileViewer = document.getElementById('fileViewer');
+      fileViewer.src = '';
+      modal.style.display = 'none';
+    }
+
+        // Mostrar el popup si hay un parámetro de consulta status
+        window.onload = function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const status = urlParams.get('status');
+          if (status) {
+            const popup = document.getElementById('popup');
+            const message = document.getElementById('popup-message');
+            if (status === 'success') {
+              message.innerText = 'Archivo subido con éxito.';
+            } else {
+              message.innerText = 'Error al subir el archivo. Asegúrese de que el archivo sea menor de 1 GB.';
+            }
+            popup.style.display = 'flex';
+          }
+        }
+  </script>
 </body>
 </html>

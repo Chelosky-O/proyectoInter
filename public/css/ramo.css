@@ -472,3 +472,46 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
   font-weight: 400;
   line-height: 118.266%; /* 28.384px */
 }
+
+.file-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.9);
+}
+
+.file-modal-content {
+  position: relative;
+  margin: auto;
+  padding: 0;
+  width: 80%;
+  max-width: 800px;
+  height: 90%;
+}
+
+.file-modal-content iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.close {
+  color: #aaa;
+  position: absolute;
+  right: 25px;
+  top: 0;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}

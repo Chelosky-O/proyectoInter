@@ -14,7 +14,7 @@
     <div class="archivos">
       <% archivos.forEach(archivo => { %>
         <div class="archivo">
-          <div class="archivo-icono"></div>
+          <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
           <a href="/uploads/<%= archivo.directorio %>" download>
             <div class="archivo-nombre"><%= archivo.nombre %></div>
             <div class="archivo-descargar">⇩</div>
@@ -60,6 +60,15 @@
     </div>
   </div>
 
+
+   <!-- Modal para mostrar el archivo -->
+   <div id="fileModal" class="file-modal">
+    <div class="file-modal-content">
+      <span class="close" onclick="closeFileModal()">&times;</span>
+      <iframe id="fileViewer" src="" frameborder="0"></iframe>
+    </div>
+  </div>
+
   <script>
     function toggleDialogOptions() {
       var dialogOptions = document.getElementById('dialogOptions');
@@ -89,6 +98,20 @@
 
     function closePopup(popupId) {
       document.getElementById(popupId).style.display = 'none';
+    }
+
+    function openFileModal(fileUrl) {
+      var modal = document.getElementById('fileModal');
+      var fileViewer = document.getElementById('fileViewer');
+      fileViewer.src = fileUrl;
+      modal.style.display = 'block';
+    }
+    
+    function closeFileModal() {
+      var modal = document.getElementById('fileModal');
+      var fileViewer = document.getElementById('fileViewer');
+      fileViewer.src = '';
+      modal.style.display = 'none';
     }
   </script>
 </body>

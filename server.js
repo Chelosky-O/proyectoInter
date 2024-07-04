@@ -26,7 +26,7 @@ function createDbPool() {
     password: "1234",
     database: "notas",
     //port: 3306,
-    port: 3306,
+    port: 3307,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
