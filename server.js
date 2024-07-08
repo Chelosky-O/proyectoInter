@@ -26,7 +26,7 @@ function createDbPool() {
     password: "1234",
     database: "notas",
     //port: 3306,
-    port: 3307,
+    port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -405,6 +405,45 @@ app.post("/upload", (req, res) => {
       res.redirect(`/ramo/${ramo}?status=error`);
     }
   });
+});
+
+const fs = require("fs");
+
+app.post("/delete", async (req, res) => {
+  const archivoId = req.body.id;
+  const directorio = req.body.directorio; // Obtener el directorio del cuerpo de la solicitud
+  const categ = req.body.category;
+  console.log(
+    "Eliminando archivo con ID:",
+    archivoId,
+    "y directorio:",
+    directorio
+  );
+
+  try {
+    // Eliminar el archivo de la base de datos
+    const [result] = await db.query(
+      "DELETE FROM Archivo WHERE id = ? AND categoria = ?",
+      [archivoId, categ]
+    );
+    console.log("Resultado de la eliminación en la base de datos:", result);
+
+    // Eliminar el archivo del servidor
+    const archivoPath = path.join(__dirname, "public/uploads/", directorio);
+    console.log("Ruta del archivo en el servidor:", archivoPath);
+
+    fs.unlink(archivoPath, (err) => {
+      if (err) {
+        console.error("Error deleting the file from the server:", err);
+        return res.status(500).send("Error deleting the file from the server");
+      }
+
+      res.redirect("back"); // Redirigir a la página anterior después de la eliminación
+    });
+  } catch (error) {
+    console.error("Error deleting archivo:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // Inicia el servidor

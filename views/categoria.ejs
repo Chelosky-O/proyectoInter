@@ -1,118 +1,143 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <link rel="stylesheet" href="/css/categoria.css" />
-  <link rel="stylesheet" href="/css/styleguide.css" />
-  <link rel="stylesheet" href="/css/globals.css" />
-  <title><%= category %> - ApuntARQ</title>
-</head>
-<body>
-  <%- include('header'); -%>
-  <div class="container">
-    <h1 class="titulo"><%= category %></h1>
-    <div class="archivos">
-      <% archivos.forEach(archivo => { %>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/categoria.css" />
+    <link rel="stylesheet" href="/css/styleguide.css" />
+    <link rel="stylesheet" href="/css/globals.css" />
+    <title><%= category %> - ApuntARQ</title>
+  </head>
+  <body>
+    <%- include('header'); -%>
+    <div class="container">
+      <h1 class="titulo"><%= category %></h1>
+      <div class="archivos">
+        <% archivos.forEach(archivo => { %>
         <div class="archivo">
-          <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
+          <div
+            class="archivo-icono"
+            onclick="openFileModal('/uploads/<%= archivo.directorio %>')"
+          ></div>
           <a href="/uploads/<%= archivo.directorio %>" download>
             <div class="archivo-nombre"><%= archivo.nombre %></div>
             <div class="archivo-descargar">⇩</div>
           </a>
+          <% if(user.estado == 1){-%>
+          <form
+            action="/delete"
+            method="POST"
+            onsubmit="return confirm('¿Estás seguro de que deseas eliminar este archivo?');"
+          >
+            <input
+              type="hidden"
+              name="directorio"
+              value="<%= archivo.directorio %>"
+            />
+            <input type="hidden" name="id" value="<%= archivo.id %>" />
+            <input type="hidden" name="category" value="<%= category %>" />
+            <button type="submit" class="archivo-eliminar">Eliminar</button>
+          </form>
+          <%}%>
         </div>
-      <% }) %>
+        <% }) %>
+      </div>
+      <button class="volver" onclick="history.back()">← Volver</button>
     </div>
-    <button class="volver" onclick="history.back()">← Volver</button>
-  </div>
-  
-  <!-- Botón de diálogo -->
-  <div class="dialog-button" onclick="toggleDialogOptions()">
-    💬
-  </div>
-  
-  <!-- Opciones de diálogo -->
-  <div class="dialog-options" id="dialogOptions" style="display: none;">
-    <button onclick="showComments()">Ver Comentarios</button>
-    <button onclick="writeComment()">Escribir Comentario</button>
-  </div>
-  
-  <!-- Ventana para ver comentarios -->
-  <div class="popup" id="viewCommentsPopup" style="display: none;">
-    <div class="popup-content">
-      <span class="close" onclick="closePopup('viewCommentsPopup')">&times;</span>
-      <h2>Comentarios</h2>
-      <div id="commentsList"></div>
+
+    <!-- Botón de diálogo -->
+    <div class="dialog-button" onclick="toggleDialogOptions()">💬</div>
+
+    <!-- Opciones de diálogo -->
+    <div class="dialog-options" id="dialogOptions" style="display: none">
+      <button onclick="showComments()">Ver Comentarios</button>
+      <button onclick="writeComment()">Escribir Comentario</button>
     </div>
-  </div>
-  
-  <!-- Ventana para escribir comentarios -->
-  <div class="popup" id="writeCommentPopup" style="display: none;">
-    <div class="popup-content">
-      <span class="close" onclick="closePopup('writeCommentPopup')">&times;</span>
-      <h2>Escribir Comentario</h2>
-      <form id="commentForm" action="/comentario" method="POST">
-        <input type="hidden" name="id_usuario" value="<%= user.id %>">
-        <input type="hidden" name="id_ramo" value="<%= ramo.id %>">
-        <input type="hidden" name="categoria" value="<%= category %>">
-        <textarea name="comentario" required></textarea>
-        <button type="submit">Enviar</button>
-      </form>
+
+    <!-- Ventana para ver comentarios -->
+    <div class="popup" id="viewCommentsPopup" style="display: none">
+      <div class="popup-content">
+        <span class="close" onclick="closePopup('viewCommentsPopup')"
+          >&times;</span
+        >
+        <h2>Comentarios</h2>
+        <div id="commentsList"></div>
+      </div>
     </div>
-  </div>
 
-
-   <!-- Modal para mostrar el archivo -->
-   <div id="fileModal" class="file-modal">
-    <div class="file-modal-content">
-      <span class="close" onclick="closeFileModal()">&times;</span>
-      <iframe id="fileViewer" src="" frameborder="0"></iframe>
+    <!-- Ventana para escribir comentarios -->
+    <div class="popup" id="writeCommentPopup" style="display: none">
+      <div class="popup-content">
+        <span class="close" onclick="closePopup('writeCommentPopup')"
+          >&times;</span
+        >
+        <h2>Escribir Comentario</h2>
+        <form id="commentForm" action="/comentario" method="POST">
+          <input type="hidden" name="id_usuario" value="<%= user.id %>" />
+          <input type="hidden" name="id_ramo" value="<%= ramo.id %>" />
+          <input type="hidden" name="categoria" value="<%= category %>" />
+          <textarea name="comentario" required></textarea>
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <script>
-    function toggleDialogOptions() {
-      var dialogOptions = document.getElementById('dialogOptions');
-      dialogOptions.style.display = dialogOptions.style.display === 'none' ? 'block' : 'none';
-    }
+    <!-- Modal para mostrar el archivo -->
+    <div id="fileModal" class="file-modal">
+      <div class="file-modal-content">
+        <span class="close" onclick="closeFileModal()">&times;</span>
+        <iframe id="fileViewer" src="" frameborder="0"></iframe>
+      </div>
+    </div>
 
-    function showComments() {
-      var popup = document.getElementById('viewCommentsPopup');
-      fetch('/comentarios?ramo=<%= ramo.id %>&categoria=<%= category %>')
-        .then(response => response.json())
-        .then(data => {
-          var commentsList = document.getElementById('commentsList');
-          commentsList.innerHTML = '';
-          data.forEach(comment => {
-            var commentDiv = document.createElement('div');
-            commentDiv.innerHTML = `<p><strong>${comment.nombre}</strong>: ${comment.comentario} <br><small>${new Date(comment.fecha).toLocaleDateString()}</small></p>`;
-            commentsList.appendChild(commentDiv);
+    <script>
+      function toggleDialogOptions() {
+        var dialogOptions = document.getElementById("dialogOptions");
+        dialogOptions.style.display =
+          dialogOptions.style.display === "none" ? "block" : "none";
+      }
+
+      function showComments() {
+        var popup = document.getElementById("viewCommentsPopup");
+        fetch("/comentarios?ramo=<%= ramo.id %>&categoria=<%= category %>")
+          .then((response) => response.json())
+          .then((data) => {
+            var commentsList = document.getElementById("commentsList");
+            commentsList.innerHTML = "";
+            data.forEach((comment) => {
+              var commentDiv = document.createElement("div");
+              commentDiv.innerHTML = `<p><strong>${comment.nombre}</strong>: ${
+                comment.comentario
+              } <br><small>${new Date(
+                comment.fecha
+              ).toLocaleDateString()}</small></p>`;
+              commentsList.appendChild(commentDiv);
+            });
           });
-        });
-      popup.style.display = 'flex';
-    }
+        popup.style.display = "flex";
+      }
 
-    function writeComment() {
-      var popup = document.getElementById('writeCommentPopup');
-      popup.style.display = 'flex';
-    }
+      function writeComment() {
+        var popup = document.getElementById("writeCommentPopup");
+        popup.style.display = "flex";
+      }
 
-    function closePopup(popupId) {
-      document.getElementById(popupId).style.display = 'none';
-    }
+      function closePopup(popupId) {
+        document.getElementById(popupId).style.display = "none";
+      }
 
-    function openFileModal(fileUrl) {
-      var modal = document.getElementById('fileModal');
-      var fileViewer = document.getElementById('fileViewer');
-      fileViewer.src = fileUrl;
-      modal.style.display = 'block';
-    }
-    
-    function closeFileModal() {
-      var modal = document.getElementById('fileModal');
-      var fileViewer = document.getElementById('fileViewer');
-      fileViewer.src = '';
-      modal.style.display = 'none';
-    }
-  </script>
-</body>
+      function openFileModal(fileUrl) {
+        var modal = document.getElementById("fileModal");
+        var fileViewer = document.getElementById("fileViewer");
+        fileViewer.src = fileUrl;
+        modal.style.display = "block";
+      }
+
+      function closeFileModal() {
+        var modal = document.getElementById("fileModal");
+        var fileViewer = document.getElementById("fileViewer");
+        fileViewer.src = "";
+        modal.style.display = "none";
+      }
+    </script>
+  </body>
 </html>
