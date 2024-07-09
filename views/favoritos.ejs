@@ -20,7 +20,8 @@
           <div>
             <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
             <a class="archivo-favorito" href="#" onclick="desmarcarFavorito('<%= archivo.id %>')">✗</a>
-            <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+            <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>       
+            <span id="popup-copiarenlace">¡Enlace copiado!</span>            
           </div>
         </div>
       <% }) %>
@@ -59,6 +60,7 @@
         window.location.href = `/nofavorito?status=error`;
       });
     }
+
     function copiarEnlace(enlaceArchivo) {
       // Crear un elemento de entrada (input) oculto
       const input = document.createElement('input');
@@ -66,26 +68,33 @@
       input.style.opacity = 0;
       input.value = window.location.origin + enlaceArchivo;
       document.body.appendChild(input);
+    
       // Seleccionar y copiar el contenido del campo de entrada
       input.select();
       input.setSelectionRange(0, 99999); // Para dispositivos móviles
+    
+      // Copiar el contenido al portapapeles
       document.execCommand('copy');
+    
       // Eliminar el campo de entrada del DOM
       document.body.removeChild(input);
-      // Mostrar algún tipo de retroalimentación al usuario
-      alert('Enlace copiado al portapapeles');
-    }
-    function openFileModal(fileUrl) {
-      var modal = document.getElementById('fileModal');
-      var fileViewer = document.getElementById('fileViewer');
-      fileViewer.src = fileUrl;
-      modal.style.display = 'block';
-    }
-    function closeFileModal() {
-      var modal = document.getElementById('fileModal');
-      var fileViewer = document.getElementById('fileViewer');
-      fileViewer.src = '';
-      modal.style.display = 'none';
+    
+      // Obtener el botón de compartir clicado
+      const button = event.target;
+      const message = button.nextElementSibling; // Obtener el mensaje de retroalimentación
+    
+      // Mostrar el mensaje de retroalimentación al usuario debajo del botón de compartir
+      message.style.display = 'block'; // Mostrar el mensaje
+    
+      // Calcular la posición del mensaje debajo del botón
+      const rect = button.getBoundingClientRect();
+      message.style.position = 'absolute';
+      message.style.top = rect.bottom + 'px';
+      message.style.left = rect.left + 'px';
+    
+      setTimeout(() => {
+        message.style.display = 'none'; // Ocultar el mensaje después de un tiempo
+      }, 2000); // 2000 milisegundos (2 segundos) de visibilidad
     }
   </script>
 </body>

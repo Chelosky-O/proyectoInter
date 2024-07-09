@@ -128,3 +128,17 @@ body {
     text-decoration: none;
     cursor: pointer;
   }
+
+    /* Estilo para el mensaje de retroalimentación */
+    #popup-copiarenlace {
+        display: none; /* Oculto por defecto */
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.8); /* Color de fondo */
+        color: #fff; /* Color del texto */
+        padding: 5px 10px; /* Espacio interior */
+        border-radius: 5px; /* Bordes redondeados */
+        z-index: 9999; /* Z-index alto para que esté encima de todo */
+      }

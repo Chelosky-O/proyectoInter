@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS Favorito (
   id INT AUTO_INCREMENT PRIMARY KEY,
   id_usuario INT NOT NULL,
   id_archivo INT NOT NULL,
+  agregado INT,
   FOREIGN KEY (id_usuario) REFERENCES Usuario(id),
   FOREIGN KEY (id_archivo) REFERENCES Archivo(id)
 );

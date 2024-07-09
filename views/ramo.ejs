@@ -53,7 +53,8 @@
                 <div>
                   <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
                   <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
-                  <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+                  <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>      
+                  <span id="popup-copiarenlace">¡Enlace copiado!</span>            
                 </div>
             </div>
             <% }) %>
@@ -80,7 +81,8 @@
               <div>
                 <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
                 <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
-                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>         
+                <span id="popup-copiarenlace">¡Enlace copiado!</span>         
               </div>            
             </div>
             <% }) %>
@@ -107,7 +109,8 @@
               <div>
                 <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
                 <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
-                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>    
+                <span id="popup-copiarenlace">¡Enlace copiado!</span>              
               </div>            </div>
             <% }) %>
           </div>
@@ -136,8 +139,10 @@
               <div>
                 <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
                 <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
-                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
-              </div>            </div>
+                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>      
+                <span id="popup-copiarenlace">¡Enlace copiado!</span>      
+              </div>           
+            </div>
             <% }) %>
           </div>
         </div>
@@ -222,9 +227,6 @@
         document.getElementById("uploadModal").style.display = "none";
       }
 
-      function closePopup() {
-        document.getElementById("popup").style.display = "none";
-      }
 
       function toggleCategory(category, button) {
         var content = document.getElementById(category);
@@ -275,23 +277,24 @@
         fileViewer.src = "";
         modal.style.display = "none";
       }
-
-      // Mostrar el popup si hay un parámetro de consulta status
+      
       window.onload = function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const status = urlParams.get("status");
+        const status = "<%= status %>"; // Obtén la variable de estado del servidor
         if (status) {
           const popup = document.getElementById("popup");
           const message = document.getElementById("popup-message");
           if (status === "success") {
             message.innerText = "Archivo subido con éxito.";
-          } else {
-            message.innerText =
-              "Error al subir el archivo. Asegúrese de que el archivo sea menor de 1 GB.";
+          } else if (status === "error") {
+            message.innerText = "Error al subir el archivo. Asegúrese de que el archivo sea menor de 1 GB.";
           }
           popup.style.display = "flex";
         }
       };
+    
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
 
       function marcarComoFavorito(idArchivo) {
         fetch(`/favorito?id_archivo=${idArchivo}`, {
@@ -310,6 +313,7 @@
           window.location.href = `/ramo/${ramo}?status=error`;
         });
       }
+      
       function copiarEnlace(enlaceArchivo) {
         // Crear un elemento de entrada (input) oculto
         const input = document.createElement('input');
@@ -317,21 +321,38 @@
         input.style.opacity = 0;
         input.value = window.location.origin + enlaceArchivo;
         document.body.appendChild(input);
-        
-        const message = document.getElementById('popup-message');
+      
         // Seleccionar y copiar el contenido del campo de entrada
         input.select();
         input.setSelectionRange(0, 99999); // Para dispositivos móviles
-        
+      
         // Copiar el contenido al portapapeles
         document.execCommand('copy');
-        
+      
         // Eliminar el campo de entrada del DOM
         document.body.removeChild(input);
-        
-        // Mostrar algún tipo de retroalimentación al usuario
-        message.innerText = 'Enlace copiado al portapapeles';
+      
+        // Obtener el botón de compartir clicado
+        const button = event.target;
+        const message = button.nextElementSibling; // Obtener el mensaje de retroalimentación
+      
+        // Mostrar el mensaje de retroalimentación al usuario debajo del botón de compartir
+        message.style.display = 'block'; // Mostrar el mensaje
+      
+        // Calcular la posición del mensaje debajo del botón
+        const rect = button.getBoundingClientRect();
+        message.style.position = 'absolute';
+        message.style.top = rect.bottom + 'px';
+        message.style.left = rect.left + 'px';
+      
+        setTimeout(() => {
+          message.style.display = 'none'; // Ocultar el mensaje después de un tiempo
+        }, 2000); // 2000 milisegundos (2 segundos) de visibilidad
       }
+      
+      
+      
+      
     </script>
   </body>
 </html>

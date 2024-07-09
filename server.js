@@ -27,7 +27,7 @@ function createDbPool() {
     password: "1234",
     database: "notas",
     //port: 3306,
-    port: 3306,
+    port: 3307,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -199,6 +199,7 @@ app.get("/cursos/:year", async (req, res) => {
 
 app.get("/ramo/:id", async (req, res) => {
   const ramoId = req.params.id;
+  const status = req.query.status || null; // Obtén el parámetro status de la consulta
 
   try {
     const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [
@@ -219,11 +220,15 @@ app.get("/ramo/:id", async (req, res) => {
       archivos[category] = archivoRows;
     }
 
+    const status = req.session.status || null;
+    delete req.session.status;
+
     res.render("ramo", {
       user: req.user,
       ramo,
       archivos,
       yearText: getYearText(ramo.year),
+      status: status, // Incluye el estado en el objeto de renderizado
     });
   } catch (error) {
     console.error("Error retrieving archivos from the database:", error);
@@ -367,7 +372,8 @@ const upload = multer({
 app.post("/upload", (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      return res.redirect(`/ramo/${req.body.ramo}?status=error`);
+      req.session.status = 'error';
+      return res.redirect(`/ramo/${req.body.ramo}`);
     }
 
     // Datos del archivo subido
@@ -382,7 +388,7 @@ app.post("/upload", (req, res) => {
 
     // Guardar en la base de datos
     try {
-      const [result] = await db.query(
+      await db.query(
         "INSERT INTO Archivo (id_usuario, ramo, directorio, profesor, nombre, year, semestre, categoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         [
           id_usuario,
@@ -395,18 +401,17 @@ app.post("/upload", (req, res) => {
           categoria,
         ]
       );
-      console.log("Archivo guardado en la base de datos:", result);
 
-      res.redirect(`/ramo/${ramo}?status=success`);
+      req.session.status = 'success';
+      res.redirect(`/ramo/${ramo}`);
     } catch (dbError) {
-      console.error(
-        "Error al guardar el archivo en la base de datos:",
-        dbError
-      );
-      res.redirect(`/ramo/${ramo}?status=error`);
+      console.error("Error al guardar el archivo en la base de datos:", dbError);
+      req.session.status = 'error';
+      res.redirect(`/ramo/${ramo}`);
     }
   });
 });
+
 
 const fs = require("fs");
 
@@ -453,7 +458,7 @@ app.get("/favoritos", async (req, res) =>{
     const archivos = [];
 
     const [ids_archivos] = await db.query(
-      "SELECT id_archivo FROM favorito WHERE id_usuario = ? AND agregado = 1",
+      "SELECT id_archivo FROM Favorito WHERE id_usuario = ? AND agregado = 1",
       [id_usuario]
     );
 
@@ -464,7 +469,7 @@ app.get("/favoritos", async (req, res) =>{
       console.log("Consultando archivo con ID:", id_archivo);
 
       const [directorio_archivo] = await db.query(
-        "SELECT archivo.id, archivo.nombre, archivo.directorio, favorito.agregado, favorito.id AS id_favorito FROM archivo, favorito WHERE archivo.id = ? AND favorito.id_archivo=?",
+        "SELECT Archivo.id, Archivo.nombre, Archivo.directorio, Favorito.agregado, Favorito.id AS id_Favorito FROM Archivo, Favorito WHERE Archivo.id = ? AND Favorito.id_archivo=?",
           [id_archivo, id_archivo]
       );
 
@@ -493,7 +498,7 @@ app.post("/favorito", async (req, res) => {
 
     //busca si ya existe el archivo guardado en los favoritos del usuario
     const [search] = await db.query(
-      "SELECT id_archivo, id_usuario, agregado FROM favorito WHERE id_archivo=? AND id_usuario=?",
+      "SELECT id_archivo, id_usuario, agregado FROM Favorito WHERE id_archivo=? AND id_usuario=?",
       [
         id_archivo, 
         id_usuario,
@@ -504,7 +509,7 @@ app.post("/favorito", async (req, res) => {
       const agregado=search[0].agregado;
       if(agregado==0){
         const [result] = await db.query(
-          "UPDATE favorito SET agregado = 1 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 0",
+          "UPDATE Favorito SET agregado = 1 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 0",
           [id_archivo, id_usuario]
         );
 
@@ -516,7 +521,7 @@ app.post("/favorito", async (req, res) => {
     }else{
       // Guardar datos en la base de datos
       const [result] = await db.query(
-        "INSERT INTO favorito (id_usuario, id_archivo, agregado) VALUES (?, ?, 1)",
+        "INSERT INTO Favorito (id_usuario, id_archivo, agregado) VALUES (?, ?, 1)",
         [id_usuario, id_archivo]
       );
 
@@ -538,7 +543,7 @@ app.post("/nofavorito", async (req, res) => {
 
     //busca si ya existe el archivo guardado en los favoritos del usuario
     const [search] = await db.query(
-      "SELECT id_archivo, id_usuario, agregado FROM favorito WHERE id_archivo=? AND id_usuario=? AND agregado = 1",
+      "SELECT id_archivo, id_usuario, agregado FROM Favorito WHERE id_archivo=? AND id_usuario=? AND agregado = 1",
       [id_archivo, id_usuario]
     );
 
@@ -547,7 +552,7 @@ app.post("/nofavorito", async (req, res) => {
     if(search.length > 0){
       // Guardar datos en la base de datos
       const [result] = await db.query(
-        "UPDATE favorito SET agregado = 0 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 1",
+        "UPDATE Favorito SET agregado = 0 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 1",
         [id_archivo, id_usuario]
       );
 
