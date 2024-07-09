@@ -46,14 +46,15 @@
             </div>
             <% archivos.Apuntes.forEach(archivo => { %>
             <div class="archivo">
-              <div
-                class="archivo-icono"
-                onclick="openFileModal('/uploads/<%= archivo.directorio %>')"
-              ></div>
-              <a href="/uploads/<%= archivo.directorio %>" download>
-                <div class="archivo-nombre"><%= archivo.nombre %></div>
+              <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div> 
+
+                <div class="archivo-nombre" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"><%= archivo.nombre %></div>
                 <div class="archivo-descargar">⇩</div>
-              </a>
+                <div>
+                  <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
+                  <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
+                  <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+                </div>
             </div>
             <% }) %>
           </div>
@@ -74,14 +75,13 @@
             </div>
             <% archivos.Trabajos.forEach(archivo => { %>
             <div class="archivo">
-              <div
-                class="archivo-icono"
-                onclick="openFileModal('/uploads/<%= archivo.directorio %>')"
-              ></div>
-              <a href="/uploads/<%= archivo.directorio %>" download>
-                <div class="archivo-nombre"><%= archivo.nombre %></div>
-                <div class="archivo-descargar">⇩</div>
-              </a>
+              <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
+              <div class="archivo-nombre" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"><%= archivo.nombre %></div>
+              <div>
+                <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
+                <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
+                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+              </div>            
             </div>
             <% }) %>
           </div>
@@ -102,15 +102,13 @@
             </div>
             <% archivos.PDFs.forEach(archivo => { %>
             <div class="archivo">
-              <div
-                class="archivo-icono"
-                onclick="openFileModal('/uploads/<%= archivo.directorio %>')"
-              ></div>
-              <a href="/uploads/<%= archivo.directorio %>" download>
-                <div class="archivo-nombre"><%= archivo.nombre %></div>
-                <div class="archivo-descargar">⇩</div>
-              </a>
-            </div>
+              <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
+              <div class="archivo-nombre" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"><%= archivo.nombre %></div>
+              <div>
+                <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
+                <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
+                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+              </div>            </div>
             <% }) %>
           </div>
         </div>
@@ -134,11 +132,12 @@
                 class="archivo-icono"
                 onclick="openFileModal('/uploads/<%= archivo.directorio %>')"
               ></div>
-              <a href="/uploads/<%= archivo.directorio %>" download>
-                <div class="archivo-nombre"><%= archivo.nombre %></div>
-                <div class="archivo-descargar">⇩</div>
-              </a>
-            </div>
+              <div class="archivo-nombre" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"><%= archivo.nombre %></div>
+              <div>
+                <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
+                <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
+                <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>            
+              </div>            </div>
             <% }) %>
           </div>
         </div>
@@ -293,6 +292,46 @@
           popup.style.display = "flex";
         }
       };
+
+      function marcarComoFavorito(idArchivo) {
+        fetch(`/favorito?id_archivo=${idArchivo}`, {
+          method: 'POST'
+        })
+        .then(response => {
+          if (response.ok) {
+            // Procesar la respuesta según sea necesario
+            window.location.href = `/ramo/${ramo}?status=success`;
+          } else {
+            throw new Error('Error al marcar como favorito');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          window.location.href = `/ramo/${ramo}?status=error`;
+        });
+      }
+      function copiarEnlace(enlaceArchivo) {
+        // Crear un elemento de entrada (input) oculto
+        const input = document.createElement('input');
+        input.style.position = 'fixed';
+        input.style.opacity = 0;
+        input.value = window.location.origin + enlaceArchivo;
+        document.body.appendChild(input);
+        
+        const message = document.getElementById('popup-message');
+        // Seleccionar y copiar el contenido del campo de entrada
+        input.select();
+        input.setSelectionRange(0, 99999); // Para dispositivos móviles
+        
+        // Copiar el contenido al portapapeles
+        document.execCommand('copy');
+        
+        // Eliminar el campo de entrada del DOM
+        document.body.removeChild(input);
+        
+        // Mostrar algún tipo de retroalimentación al usuario
+        message.innerText = 'Enlace copiado al portapapeles';
+      }
     </script>
   </body>
 </html>

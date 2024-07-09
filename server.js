@@ -5,6 +5,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const mysql = require("mysql2/promise");
 const path = require("path");
 const multer = require("multer");
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -203,7 +204,7 @@ app.get("/ramo/:id", async (req, res) => {
     const [ramoRows] = await db.query("SELECT * FROM Ramo WHERE id = ?", [
       ramoId,
     ]);
-    if (ramoRows.length === 0) {
+    if (ramoRows.length == 0) {
       return res.status(404).send("Ramo no encontrado");
     }
     const ramo = ramoRows[0];
@@ -443,6 +444,122 @@ app.post("/delete", async (req, res) => {
   } catch (error) {
     console.error("Error deleting archivo:", error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/favoritos", async (req, res) =>{
+  try{
+    const id_usuario = req.user.id;
+    const archivos = [];
+
+    const [ids_archivos] = await db.query(
+      "SELECT id_archivo FROM favorito WHERE id_usuario = ? AND agregado = 1",
+      [id_usuario]
+    );
+
+    console.log("IDs de archivos favoritos:", ids_archivos);
+
+    for(const {id_archivo} of ids_archivos){
+
+      console.log("Consultando archivo con ID:", id_archivo);
+
+      const [directorio_archivo] = await db.query(
+        "SELECT archivo.id, archivo.nombre, archivo.directorio, favorito.agregado, favorito.id AS id_favorito FROM archivo, favorito WHERE archivo.id = ? AND favorito.id_archivo=?",
+          [id_archivo, id_archivo]
+      );
+
+      console.log("Resultado de la consulta de archivo:", directorio_archivo);
+
+      //archivos[id_archivo] = directorio_archivo;
+      archivos.push(directorio_archivo[0]); // Asegúrate de acceder al primer elemento de directorio_archivo
+    }
+
+    console.log("Los archivos se envían de la siguiente forma:", archivos);
+
+    res.render("favoritos", {
+      archivos,
+      user: req.user,
+    });
+  } catch (error) {
+    console.error("Error saving comment to the database:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/favorito", async (req, res) => {
+  try {
+    const id_archivo = req.query.id_archivo; // Obtén el ID del archivo de la consulta
+    const id_usuario = req.user.id; // Suponiendo que tienes el ID del usuario desde la autenticación
+
+    //busca si ya existe el archivo guardado en los favoritos del usuario
+    const [search] = await db.query(
+      "SELECT id_archivo, id_usuario, agregado FROM favorito WHERE id_archivo=? AND id_usuario=?",
+      [
+        id_archivo, 
+        id_usuario,
+      ]
+    );
+
+    if(search.length > 0){
+      const agregado=search[0].agregado;
+      if(agregado==0){
+        const [result] = await db.query(
+          "UPDATE favorito SET agregado = 1 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 0",
+          [id_archivo, id_usuario]
+        );
+
+        console.log("Archivo actualizado:", result);
+      }else{
+      console.error("Este archivo ya está en favoritos");
+      return res.status(409).send("Este archivo ya está en favoritos");
+      }
+    }else{
+      // Guardar datos en la base de datos
+      const [result] = await db.query(
+        "INSERT INTO favorito (id_usuario, id_archivo, agregado) VALUES (?, ?, 1)",
+        [id_usuario, id_archivo]
+      );
+
+      console.log("Archivo guardado en la base de datos:", result);
+      return res.status(200).send("Archivo marcado como favorito correctamente");
+    } 
+  }catch (error) {
+    console.error("Error al marcar el archivo como favorito:", error);
+    return res.status(500).send("Error al marcar el archivo como favorito");
+  }
+});
+
+app.post("/nofavorito", async (req, res) => {
+  try {
+    const id_archivo = req.query.id_archivo; // Obtén el ID del archivo de la consulta
+    const id_usuario = req.user.id; // Suponiendo que tienes el ID del usuario desde la autenticación
+
+    console.log("ID del archivo:", id_archivo, "ID del usuario:", id_usuario);
+
+    //busca si ya existe el archivo guardado en los favoritos del usuario
+    const [search] = await db.query(
+      "SELECT id_archivo, id_usuario, agregado FROM favorito WHERE id_archivo=? AND id_usuario=? AND agregado = 1",
+      [id_archivo, id_usuario]
+    );
+
+    console.log("Resultados de la búsqueda:", search);
+
+    if(search.length > 0){
+      // Guardar datos en la base de datos
+      const [result] = await db.query(
+        "UPDATE favorito SET agregado = 0 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 1",
+        [id_archivo, id_usuario]
+      );
+
+      console.log("Archivo guardado en la base de datos:", result);
+      return res.status(200).send("Archivo desmarcado como favorito correctamente");
+    }else{
+      console.error("Este archivo no está en favoritos");
+      return res.status(409).send("Este archivo no está en favoritos");
+    } 
+  }catch (error) {
+    console.error("Error al desmarcar el archivo de favorito:", error);
+    return res.status(500).send("Error al desmarcar el archivo de favorito");
   }
 });
 

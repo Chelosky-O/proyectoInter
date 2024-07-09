@@ -1,0 +1,130 @@
+body {
+    background-color: #fff;
+    margin: 0;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+  }
+  
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    margin-top: 10vh;
+}
+
+.titulo {
+    color: var(--Rojo, #CC2936);
+    font-family: "Roboto Condensed";
+    font-size: 96px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.archivo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 10px;
+}
+
+.archivo a {
+    text-decoration: none;
+    color: #000;
+}
+  
+.archivo a:hover {
+    text-decoration: underline;
+}
+  
+.archivo-icono {
+    width: 170px;
+    height: 125px;
+    background-color: #d32f2f;
+    margin-bottom: 10px;
+    border-radius: 30px;
+}
+  
+.archivo-nombre {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    max-width: 100px; /* Ajustar el valor según sea necesario */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  
+.archivo-descargar {
+    font-size: 14px;
+    color: #888;
+}
+  
+.archivo-favorito {
+    font-size: 14px;
+    color: #888;
+}
+  
+.archivo-compartir {
+    font-size: 14px;
+    color: #000000;
+}
+
+.resource {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.file-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+  }
+  
+  .file-modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    width: 80%;
+    max-width: 800px;
+    height: 90%;
+    background-color: #fefefe;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+  }
+  
+  .file-modal-content iframe {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .close {
+    color: #aaa;
+    position: absolute;
+    right: 25px;
+    top: 0;
+    font-size: 35px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
