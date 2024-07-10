@@ -141,11 +141,11 @@ passport.deserializeUser(async (id, done) => {
 
 // Rutas
 app.get("/", (req, res) => {
-  res.render("home", { user: req.user });
+  res.render("home", { user: req.user});
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login", { user: req.user});
 });
 
 app.get(
@@ -156,6 +156,9 @@ app.get(
 );
 
 app.get("/cursos/:year", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/");
+  }
   const year = parseInt(req.params.year);
 
   function getYearText(year) {
@@ -198,6 +201,10 @@ app.get("/cursos/:year", async (req, res) => {
 });
 
 app.get("/ramo/:id", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  }
+  //console.log(req.user)
   const ramoId = req.params.id;
   const status = req.query.status || null; // Obtén el parámetro status de la consulta
 
@@ -260,6 +267,9 @@ function capitalizeFirstLetter(string) {
 }
 
 app.get("/ramo/:id/:category", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/login");
+  }
   const ramoId = req.params.id;
   let category = req.params.category;
   category = capitalizeFirstLetter(category);
@@ -389,17 +399,8 @@ app.post("/upload", (req, res) => {
     // Guardar en la base de datos
     try {
       await db.query(
-        "INSERT INTO Archivo (id_usuario, ramo, directorio, profesor, nombre, year, semestre, categoria) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          id_usuario,
-          ramo,
-          directorio,
-          profesor,
-          originalname,
-          year,
-          semestre,
-          categoria,
-        ]
+        "INSERT INTO Archivo (id_usuario, ramo, directorio, profesor, nombre, year, semestre, categoria, fecha_subida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())",
+        [id_usuario, ramo, directorio, profesor, originalname, year, semestre, categoria]
       );
 
       req.session.status = 'success';
@@ -567,6 +568,31 @@ app.post("/nofavorito", async (req, res) => {
     return res.status(500).send("Error al desmarcar el archivo de favorito");
   }
 });
+
+app.get("/historial", isAdmin, async (req, res) => {
+  try {
+    const [archivos] = await db.query(`
+      SELECT Archivo.*, Usuario.nombre as nombre_usuario, Usuario.id as id_usuario, Ramo.nombre as nombre_ramo, Ramo.year as year_ramo
+      FROM Archivo 
+      JOIN Usuario ON Archivo.id_usuario = Usuario.id 
+      JOIN Ramo ON Archivo.ramo = Ramo.id 
+      ORDER BY Archivo.fecha_subida DESC
+    `);
+    
+    res.render("historial", { user: req.user, archivos: archivos });
+  } catch (error) {
+    console.error("Error retrieving historial:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Middleware para verificar si el usuario es administrador
+function isAdmin(req, res, next) {
+  if (req.user && req.user.tipo_usuario === 1) {
+    return next();
+  }
+  res.status(403).send('Acceso denegado');
+}
 
 // Inicia el servidor
 app.listen(3000, () => {

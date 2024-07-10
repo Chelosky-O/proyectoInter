@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Archivos</title>
+    <link rel="stylesheet" href="/css/globals.css">
+    <link rel="stylesheet" href="/css/styleguide.css">
+    <link rel="stylesheet" href="/css/historial.css" />
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <%- include('header') %>
+    <div class="container">
+        <h1>Historial de Archivos Subidos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre del archivo</th>
+                    <th>ID Usuario</th>
+                    <th>Nombre Usuario</th>
+                    <th>Año de Ramo</th>
+                    <th>Nombre de Ramo</th>
+                    <th>Categoría</th>
+                    <th>Fecha de subida</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% archivos.forEach(archivo => { %>
+                    <tr>
+                        <td><%= archivo.nombre %></td>
+                        <td><%= archivo.id_usuario %></td>
+                        <td><%= archivo.nombre_usuario %></td>
+                        <td><%= archivo.year_ramo %></td>
+                        <td><%= archivo.nombre_ramo %></td>
+                        <td><%= archivo.categoria %></td>
+                        <td><%= archivo.fecha_subida.toLocaleString() %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>

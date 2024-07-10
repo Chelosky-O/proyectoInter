@@ -41,8 +41,6 @@
           <div class="category-content" id="Apuntes">
             <div class="see-all" id="seeAllApuntes" style="display: none">
               <a href="/ramo/<%= ramo.id %>/apuntes">Ver todo</a>
-              <% if(user.estado == 1){-%>
-              <a href="/ramo/<%= ramo.id %>/apuntes/edit">Editar</a> <%}%>
             </div>
             <% archivos.Apuntes.forEach(archivo => { %>
             <div class="archivo">
@@ -147,6 +145,9 @@
           </div>
         </div>
         <div class="bottom-buttons">
+          <% if(user.tipo_usuario == 1){-%>
+            <a href="/ramo/<%= ramo.id %>/apuntes/edit">Editar</a> 
+            <%}%>
           <button class="subir" onclick="openModal()">+ Subir</button>
         </div>
       </div>

@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS notas;
 USE notas;
 
+SET time_zone = 'America/Santiago';
+
 -- Tabla Usuario
 CREATE TABLE IF NOT EXISTS Usuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -8,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
   nombre VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   foto VARCHAR(255),
-  tipo_usuario BINARY(1) DEFAULT 0,
+  tipo_usuario INT DEFAULT 0,
   UNIQUE (google_id)
 );
 
@@ -33,6 +35,7 @@ CREATE TABLE IF NOT EXISTS Archivo (
   year INT NOT NULL,
   semestre INT NOT NULL,
   categoria TEXT,
+  fecha_subida DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (id_usuario) REFERENCES Usuario(id),
   FOREIGN KEY (ramo) REFERENCES Ramo(id)
 );

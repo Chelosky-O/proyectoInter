@@ -22,11 +22,12 @@
   text-align: right;
   font-style: normal;
   line-height: normal;
-  margin-right: 3%;
+  
 }
 
 .user-menu {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   font-family: "Roboto", Helvetica;
   font-weight: 800;
@@ -36,6 +37,7 @@
   font-style: normal;
   line-height: normal;
   margin-right: 3%;
+  width: 25%; /* Ajusta este valor según sea necesario */
 }
 
 .user-menu .profile-pic {
