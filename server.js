@@ -105,6 +105,12 @@ passport.use(
             "INSERT INTO Usuario (google_id, nombre, email, foto) VALUES (?, ?, ?, ?)",
             [profile.id, profile.displayName, email, profile.photos[0].value]
           );
+          if(email == "mauricio.hidalgo@mail.udp.cl"){
+            await db.query(
+              "UPDATE Usuario SET tipo_usuario = 1 WHERE email = ?",
+              [email]
+            );
+          }
           console.log("Insert successful:", result);
           const newUser = {
             id: result.insertId,
