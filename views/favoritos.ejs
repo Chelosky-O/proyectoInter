@@ -20,6 +20,7 @@
           <div>
             <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
             <a class="archivo-favorito" href="#" onclick="desmarcarFavorito('<%= archivo.id %>')">✗</a>
+            <span id="popup-desmarcarfav">¡Eliminado de favoritos!</span>   
             <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>       
             <span id="popup-copiarenlace">¡Enlace copiado!</span>            
           </div>
@@ -59,6 +60,22 @@
         console.error('Error:', error);
         window.location.href = `/nofavorito?status=error`;
       });
+
+      const button = event.target;
+      const message = button.nextElementSibling; // Obtener el mensaje de retroalimentación
+
+      // Mostrar el mensaje de retroalimentación al usuario debajo del botón de compartir
+      message.style.display = 'block'; // Mostrar el mensaje
+    
+      // Calcular la posición del mensaje debajo del botón
+      const rect = button.getBoundingClientRect();
+      message.style.position = 'absolute';
+      message.style.top = rect.bottom + 'px';
+      message.style.left = rect.left + 'px';
+    
+      setTimeout(() => {
+        message.style.display = 'none'; // Ocultar el mensaje después de un tiempo
+      }, 2000); // 2000 milisegundos (2 segundos) de visibilidad
     }
 
     function copiarEnlace(enlaceArchivo) {
