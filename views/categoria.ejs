@@ -14,33 +14,35 @@
       <div class="archivos">
         <% archivos.forEach(archivo => { %>
         <div class="archivo">
-          <div
-            class="archivo-icono"
-            onclick="openFileModal('/uploads/<%= archivo.directorio %>')"
-          ></div>
-          <a href="/uploads/<%= archivo.directorio %>" download>
-            <div class="archivo-nombre"><%= archivo.nombre %></div>
-            <div class="archivo-descargar">⇩</div>
-          </a>
-          <% if(user.estado == 1){-%>
-          <form
-            action="/delete"
-            method="POST"
-            onsubmit="return confirm('¿Estás seguro de que deseas eliminar este archivo?');"
-          >
-            <input
-              type="hidden"
-              name="directorio"
-              value="<%= archivo.directorio %>"
-            />
-            <input type="hidden" name="id" value="<%= archivo.id %>" />
-            <input type="hidden" name="category" value="<%= category %>" />
-            <button type="submit" class="archivo-eliminar">Eliminar</button>
-          </form>
-          <%}%>
+          <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>
+          <div class="archivo-nombre" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"><%= archivo.nombre %></div>
+          <div>
+            <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
+            <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
+            <span id="popup-copiarenlace">¡Marcado en favoritos!</span>            
+            <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>      
+            <span id="popup-copiarenlace">¡Enlace copiado!</span>            
+          </div>
         </div>
-        <% }) %>
+        <% if(user.estado == 1){-%>
+        <form
+          action="/delete"
+          method="POST"
+          onsubmit="return confirm('¿Estás seguro de que deseas eliminar este archivo?');"
+        >
+          <input
+            type="hidden"
+            name="directorio"
+            value="<%= archivo.directorio %>"
+          />
+          <input type="hidden" name="id" value="<%= archivo.id %>" />
+          <input type="hidden" name="category" value="<%= category %>" />
+          <button type="submit" class="archivo-eliminar">Eliminar</button>
+        </form>
+        <%}%>
+        <% }) %>     
       </div>
+    </div>
       <button class="volver" onclick="history.back()">← Volver</button>
     </div>
 
@@ -86,6 +88,18 @@
       <div class="file-modal-content">
         <span class="close" onclick="closeFileModal()">&times;</span>
         <iframe id="fileViewer" src="" frameborder="0"></iframe>
+      </div>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <div class="popup-header">
+          <img src="/img/exclamation-triangle-fill.svg" alt="Attention Icon" />
+          <h2>ATENCIÓN</h2>
+        </div>
+        <p id="popup-message"></p>
       </div>
     </div>
 
@@ -138,6 +152,77 @@
         fileViewer.src = "";
         modal.style.display = "none";
       }
+
+      function copiarEnlace(enlaceArchivo) {
+        // Crear un elemento de entrada (input) oculto
+        const input = document.createElement('input');
+        input.style.position = 'fixed';
+        input.style.opacity = 0;
+        input.value = window.location.origin + enlaceArchivo;
+        document.body.appendChild(input);
+      
+        // Seleccionar y copiar el contenido del campo de entrada
+        input.select();
+        input.setSelectionRange(0, 99999); // Para dispositivos móviles
+      
+        // Copiar el contenido al portapapeles
+        document.execCommand('copy');
+      
+        // Eliminar el campo de entrada del DOM
+        document.body.removeChild(input);
+      
+        // Obtener el botón de compartir clicado
+        const button = event.target;
+        const message = button.nextElementSibling; // Obtener el mensaje de retroalimentación
+      
+        // Mostrar el mensaje de retroalimentación al usuario debajo del botón de compartir
+        message.style.display = 'block'; // Mostrar el mensaje
+      
+        // Calcular la posición del mensaje debajo del botón
+        const rect = button.getBoundingClientRect();
+        message.style.position = 'absolute';
+        message.style.top = rect.bottom + 'px';
+        message.style.left = rect.left + 'px';
+      
+        setTimeout(() => {
+          message.style.display = 'none'; // Ocultar el mensaje después de un tiempo
+        }, 2000); // 2000 milisegundos (2 segundos) de visibilidad
+      }
+
+      function marcarComoFavorito(idArchivo) {
+        fetch(`/favorito?id_archivo=${idArchivo}`, {
+          method: 'POST'
+        })
+        .then(response => {
+          if (response.ok) {
+            // Procesar la respuesta según sea necesario
+            window.location.href = `/ramo/${ramo}?status=success`;
+          } else {
+            throw new Error('Error al marcar como favorito');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          window.location.href = `/ramo/${ramo}?status=error`;
+        });
+
+        const button = event.target;
+        const message = button.nextElementSibling; // Obtener el mensaje de retroalimentación
+
+        // Mostrar el mensaje de retroalimentación al usuario debajo del botón de compartir
+        message.style.display = 'block'; // Mostrar el mensaje
+      
+        // Calcular la posición del mensaje debajo del botón
+        const rect = button.getBoundingClientRect();
+        message.style.position = 'absolute';
+        message.style.top = rect.bottom + 'px';
+        message.style.left = rect.left + 'px';
+      
+        setTimeout(() => {
+          message.style.display = 'none'; // Ocultar el mensaje después de un tiempo
+        }, 2000); // 2000 milisegundos (2 segundos) de visibilidad
+      }
+
     </script>
   </body>
 </html>

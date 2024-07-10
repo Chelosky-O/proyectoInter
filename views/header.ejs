@@ -9,12 +9,17 @@
   </head>
   <body>
     <div class="header">
+
       <a href="/" class="icono">
         <img class="icono" src="/img/group-4489-1.svg" />
       </a>
 
       <% if(typeof user !== 'undefined' && typeof user.foto !== 'undefined'){ %>
       <div class="user-menu">
+        <% if(user.tipo_usuario == 1){-%>
+          <a class="login" href="/historial">Historial administrador</a>
+        <%}%>
+
         <div class="dropdown">
           <a class="login" href="#">Cursos</a>
           <div class="dropdown-content" id="Cursos">
@@ -37,12 +42,8 @@
           </div>
         </div>
       </div>
-      <%} else{ %>
-      <a class="login" href="/login">Inicio sesión</a>
-      <img class="hamburger" src="/img/3lines.svg" />
-      <div class="menu" id="menu">
-        <a href="/login">Inicio sesión</a>
-      </div>
+      <%} else { %>
+        <a class="login" href="/login">Inicio sesión</a>
       <% } %>
     </div>
 

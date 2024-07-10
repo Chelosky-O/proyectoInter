@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="/css/favoritos.css" />
+  <link rel="stylesheet" href="/css/styleguide.css" />
+  <link rel="stylesheet" href="/css/globals.css" />
+  <title>Favoritos - ApuntARQ</title>
+</head>
+
+<body>
+  <%- include('header'); -%>
+  <div class="container">
+    <h1 class="titulo">FAVORITOS</h1>
+    <div class="resource">
+      <% archivos.forEach(archivo => { %>
+        <div class="archivo">
+          <div class="archivo-icono" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"></div>            
+          <div class="archivo-nombre" onclick="openFileModal('/uploads/<%= archivo.directorio %>')"><%= archivo.nombre %></div>
+          <div>
+            <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
+            <a class="archivo-favorito" href="#" onclick="desmarcarFavorito('<%= archivo.id %>')">✗</a>
+            <span id="popup-desmarcarfav">¡Eliminado de favoritos!</span>   
+            <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>       
+            <span id="popup-copiarenlace">¡Enlace copiado!</span>            
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Modal para mostrar el archivo -->
+  <div id="fileModal" class="file-modal">
+    <div class="file-modal-content">
+      <span class="close" onclick="closeFileModal()">&times;</span>
+      <iframe id="fileViewer" src="" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <!-- Contenedor del archivo -->
+  <div class="ayuda">
+    <img class="simb-pregunta" src="/img/question-lg-1.svg" />
+    <img class="simb-chat" src="/img/chat-2.svg" />
+  </div>
+
+  <script>
+    function desmarcarFavorito(idArchivo) {
+      fetch(`/nofavorito?id_archivo=${idArchivo}`, {
+        method: 'POST'
+      })
+      .then(response => {
+        if (response.ok) {
+          // Procesar la respuesta según sea necesario
+          window.location.href = `/favoritos`;
+        } else {
+          throw new Error('Error al desmarcar como favorito');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        window.location.href = `/nofavorito?status=error`;
+      });
+
+      const button = event.target;
+      const message = button.nextElementSibling; // Obtener el mensaje de retroalimentación
+
+      // Mostrar el mensaje de retroalimentación al usuario debajo del botón de compartir
+      message.style.display = 'block'; // Mostrar el mensaje
+    
+      // Calcular la posición del mensaje debajo del botón
+      const rect = button.getBoundingClientRect();
+      message.style.position = 'absolute';
+      message.style.top = rect.bottom + 'px';
+      message.style.left = rect.left + 'px';
+    
+      setTimeout(() => {
+        message.style.display = 'none'; // Ocultar el mensaje después de un tiempo
+      }, 2000); // 2000 milisegundos (2 segundos) de visibilidad
+    }
+
+    function copiarEnlace(enlaceArchivo) {
+      // Crear un elemento de entrada (input) oculto
+      const input = document.createElement('input');
+      input.style.position = 'fixed';
+      input.style.opacity = 0;
+      input.value = window.location.origin + enlaceArchivo;
+      document.body.appendChild(input);
+    
+      // Seleccionar y copiar el contenido del campo de entrada
+      input.select();
+      input.setSelectionRange(0, 99999); // Para dispositivos móviles
+    
+      // Copiar el contenido al portapapeles
+      document.execCommand('copy');
+    
+      // Eliminar el campo de entrada del DOM
+      document.body.removeChild(input);
+    
+      // Obtener el botón de compartir clicado
+      const button = event.target;
+      const message = button.nextElementSibling; // Obtener el mensaje de retroalimentación
+    
+      // Mostrar el mensaje de retroalimentación al usuario debajo del botón de compartir
+      message.style.display = 'block'; // Mostrar el mensaje
+    
+      // Calcular la posición del mensaje debajo del botón
+      const rect = button.getBoundingClientRect();
+      message.style.position = 'absolute';
+      message.style.top = rect.bottom + 'px';
+      message.style.left = rect.left + 'px';
+    
+      setTimeout(() => {
+        message.style.display = 'none'; // Ocultar el mensaje después de un tiempo
+      }, 2000); // 2000 milisegundos (2 segundos) de visibilidad
+    }
+  </script>
+</body>
+</html>

@@ -404,9 +404,15 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
   color: #888;
 }
 
+.archivo-favorito {
+  font-size: 14px;
+  color: #888;
+}
 
-
-/* El resto de tu CSS permanece igual */
+.archivo-compartir {
+  font-size: 14px;
+  color: #000000;
+}
 
 /* Estilos para la ventana emergente */
 .popup {
@@ -473,6 +479,34 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
   line-height: 118.266%; /* 28.384px */
 }
 
+  /* Estilo para el mensaje de retroalimentación */
+  #popup-copiarenlace {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Color de fondo */
+    color: #fff; /* Color del texto */
+    padding: 5px 10px; /* Espacio interior */
+    border-radius: 5px; /* Bordes redondeados */
+    z-index: 9999; /* Z-index alto para que esté encima de todo */
+  }
+
+  /* Estilo para el mensaje de retroalimentación */
+  #popup-marcarfav {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8); /* Color de fondo */
+    color: #fff; /* Color del texto */
+    padding: 5px 10px; /* Espacio interior */
+    border-radius: 5px; /* Bordes redondeados */
+    z-index: 9999; /* Z-index alto para que esté encima de todo */
+  }
+
 .file-modal {
   display: none;
   position: fixed;
@@ -493,6 +527,10 @@ filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%)
   width: 80%;
   max-width: 800px;
   height: 90%;
+  background-color: #fefefe;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
 }
 
 .file-modal-content iframe {
