@@ -20,26 +20,25 @@
             <a class="archivo-descargar" href="/uploads/<%= archivo.directorio %>" download>⇩</a>
             <a class="archivo-favorito" href="#" onclick="marcarComoFavorito('<%= archivo.id %>')">☆</a>
             <span id="popup-copiarenlace">¡Marcado en favoritos!</span>            
-            <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>      
+            <a class="archivo-compartir" href="#" onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')">➦</a>
+            <% if(user.tipo_usuario == 1){-%>
+              <form
+                id="delete-form"
+                action="/delete"
+                method="POST"
+                onsubmit="return confirm('¿Estás seguro de que deseas eliminar este archivo?');"
+                style="display: none;"
+              >
+                <input type="hidden" name="directorio" value="<%= archivo.directorio %>" />
+                <input type="hidden" name="id" value="<%= archivo.id %>" />
+                <input type="hidden" name="category" value="<%= category %>" />
+              </form>
+
+              <a href="#" onclick="document.getElementById('delete-form').submit(); return false;" style="color: red;">✘</a>
+              <%}%>    
             <span id="popup-copiarenlace">¡Enlace copiado!</span>            
           </div>
         </div>
-        <% if(user.tipo_usuario == 1){-%>
-        <form
-          action="/delete"
-          method="POST"
-          onsubmit="return confirm('¿Estás seguro de que deseas eliminar este archivo?');"
-        >
-          <input
-            type="hidden"
-            name="directorio"
-            value="<%= archivo.directorio %>"
-          />
-          <input type="hidden" name="id" value="<%= archivo.id %>" />
-          <input type="hidden" name="category" value="<%= category %>" />
-          <button type="submit" class="archivo-eliminar">Eliminar</button>
-        </form>
-        <%}%>
         <% }) %>     
       </div>
     </div>

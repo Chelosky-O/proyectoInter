@@ -5,7 +5,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const mysql = require("mysql2/promise");
 const path = require("path");
 const multer = require("multer");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 const app = express();
 
@@ -24,7 +24,7 @@ function createDbPool() {
     host: "localhost",
     user: "root",
     //password: "root",
-    password: "milla",
+    password: "1234",
     database: "notas",
     //port: 3306,
     port: 3306,
@@ -105,7 +105,7 @@ passport.use(
             "INSERT INTO Usuario (google_id, nombre, email, foto) VALUES (?, ?, ?, ?)",
             [profile.id, profile.displayName, email, profile.photos[0].value]
           );
-          if(email == "mauricio.hidalgo@mail.udp.cl"){
+          if (email == "mauricio.hidalgo@mail.udp.cl") {
             await db.query(
               "UPDATE Usuario SET tipo_usuario = 1 WHERE email = ?",
               [email]
@@ -147,11 +147,11 @@ passport.deserializeUser(async (id, done) => {
 
 // Rutas
 app.get("/", (req, res) => {
-  res.render("home", { user: req.user});
+  res.render("home", { user: req.user });
 });
 
 app.get("/login", (req, res) => {
-  res.render("login", { user: req.user});
+  res.render("login", { user: req.user });
 });
 
 app.get(
@@ -388,7 +388,7 @@ const upload = multer({
 app.post("/upload", (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      req.session.status = 'error';
+      req.session.status = "error";
       return res.redirect(`/ramo/${req.body.ramo}`);
     }
 
@@ -406,19 +406,30 @@ app.post("/upload", (req, res) => {
     try {
       await db.query(
         "INSERT INTO Archivo (id_usuario, ramo, directorio, profesor, nombre, year, semestre, categoria, fecha_subida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())",
-        [id_usuario, ramo, directorio, profesor, originalname, year, semestre, categoria]
+        [
+          id_usuario,
+          ramo,
+          directorio,
+          profesor,
+          originalname,
+          year,
+          semestre,
+          categoria,
+        ]
       );
 
-      req.session.status = 'success';
+      req.session.status = "success";
       res.redirect(`/ramo/${ramo}`);
     } catch (dbError) {
-      console.error("Error al guardar el archivo en la base de datos:", dbError);
-      req.session.status = 'error';
+      console.error(
+        "Error al guardar el archivo en la base de datos:",
+        dbError
+      );
+      req.session.status = "error";
       res.redirect(`/ramo/${ramo}`);
     }
   });
 });
-
 
 const fs = require("fs");
 
@@ -459,8 +470,8 @@ app.post("/delete", async (req, res) => {
   }
 });
 
-app.get("/favoritos", async (req, res) =>{
-  try{
+app.get("/favoritos", async (req, res) => {
+  try {
     const id_usuario = req.user.id;
     const archivos = [];
 
@@ -471,13 +482,12 @@ app.get("/favoritos", async (req, res) =>{
 
     console.log("IDs de archivos favoritos:", ids_archivos);
 
-    for(const {id_archivo} of ids_archivos){
-
+    for (const { id_archivo } of ids_archivos) {
       console.log("Consultando archivo con ID:", id_archivo);
 
       const [directorio_archivo] = await db.query(
         "SELECT Archivo.id, Archivo.nombre, Archivo.directorio, Favorito.agregado, Favorito.id AS id_Favorito FROM Archivo, Favorito WHERE Archivo.id = ? AND Favorito.id_archivo=?",
-          [id_archivo, id_archivo]
+        [id_archivo, id_archivo]
       );
 
       console.log("Resultado de la consulta de archivo:", directorio_archivo);
@@ -506,26 +516,23 @@ app.post("/favorito", async (req, res) => {
     //busca si ya existe el archivo guardado en los favoritos del usuario
     const [search] = await db.query(
       "SELECT id_archivo, id_usuario, agregado FROM Favorito WHERE id_archivo=? AND id_usuario=?",
-      [
-        id_archivo, 
-        id_usuario,
-      ]
+      [id_archivo, id_usuario]
     );
 
-    if(search.length > 0){
-      const agregado=search[0].agregado;
-      if(agregado==0){
+    if (search.length > 0) {
+      const agregado = search[0].agregado;
+      if (agregado == 0) {
         const [result] = await db.query(
           "UPDATE Favorito SET agregado = 1 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 0",
           [id_archivo, id_usuario]
         );
 
         console.log("Archivo actualizado:", result);
-      }else{
-      console.error("Este archivo ya está en favoritos");
-      return res.status(409).send("Este archivo ya está en favoritos");
+      } else {
+        console.error("Este archivo ya está en favoritos");
+        return res.status(409).send("Este archivo ya está en favoritos");
       }
-    }else{
+    } else {
       // Guardar datos en la base de datos
       const [result] = await db.query(
         "INSERT INTO Favorito (id_usuario, id_archivo, agregado) VALUES (?, ?, 1)",
@@ -533,9 +540,11 @@ app.post("/favorito", async (req, res) => {
       );
 
       console.log("Archivo guardado en la base de datos:", result);
-      return res.status(200).send("Archivo marcado como favorito correctamente");
-    } 
-  }catch (error) {
+      return res
+        .status(200)
+        .send("Archivo marcado como favorito correctamente");
+    }
+  } catch (error) {
     console.error("Error al marcar el archivo como favorito:", error);
     return res.status(500).send("Error al marcar el archivo como favorito");
   }
@@ -556,7 +565,7 @@ app.post("/nofavorito", async (req, res) => {
 
     console.log("Resultados de la búsqueda:", search);
 
-    if(search.length > 0){
+    if (search.length > 0) {
       // Guardar datos en la base de datos
       const [result] = await db.query(
         "UPDATE Favorito SET agregado = 0 WHERE id_archivo = ? AND id_usuario = ? AND agregado = 1",
@@ -564,12 +573,14 @@ app.post("/nofavorito", async (req, res) => {
       );
 
       console.log("Archivo guardado en la base de datos:", result);
-      return res.status(200).send("Archivo desmarcado como favorito correctamente");
-    }else{
+      return res
+        .status(200)
+        .send("Archivo desmarcado como favorito correctamente");
+    } else {
       console.error("Este archivo no está en favoritos");
       return res.status(409).send("Este archivo no está en favoritos");
-    } 
-  }catch (error) {
+    }
+  } catch (error) {
     console.error("Error al desmarcar el archivo de favorito:", error);
     return res.status(500).send("Error al desmarcar el archivo de favorito");
   }
@@ -584,7 +595,7 @@ app.get("/historial", isAdmin, async (req, res) => {
       JOIN Ramo ON Archivo.ramo = Ramo.id 
       ORDER BY Archivo.fecha_subida DESC
     `);
-    
+
     res.render("historial", { user: req.user, archivos: archivos });
   } catch (error) {
     console.error("Error retrieving historial:", error);
@@ -597,7 +608,7 @@ function isAdmin(req, res, next) {
   if (req.user && req.user.tipo_usuario === 1) {
     return next();
   }
-  res.status(403).send('Acceso denegado');
+  res.status(403).send("Acceso denegado");
 }
 
 // Inicia el servidor
