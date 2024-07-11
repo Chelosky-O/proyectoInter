@@ -436,7 +436,8 @@ const fs = require("fs");
 app.post("/delete", async (req, res) => {
   const archivoId = req.body.id;
   const directorio = req.body.directorio; // Obtener el directorio del cuerpo de la solicitud
-  const categ = req.body.category;
+  const categ = req.body.categoria;
+  const nomb = req.body.nombre;
   console.log(
     "Eliminando archivo con ID:",
     archivoId,
@@ -447,8 +448,8 @@ app.post("/delete", async (req, res) => {
   try {
     // Eliminar el archivo de la base de datos
     const [result] = await db.query(
-      "DELETE FROM Archivo WHERE id = ? AND categoria = ?",
-      [archivoId, categ]
+      "DELETE FROM Archivo WHERE id = ? AND categoria = ? AND directorio = ? AND nombre = ?",
+      [archivoId, categ, directorio, nomb]
     );
     console.log("Resultado de la eliminación en la base de datos:", result);
 
@@ -603,6 +604,28 @@ app.get("/historial", isAdmin, async (req, res) => {
   }
 });
 
+app.get("/search", async (req, res) => {
+  try {
+    const query = req.query.query;
+    console.log("Received search query:", query);
+
+    const [results] = await db.query(
+      `SELECT * FROM archivo 
+     WHERE nombre LIKE ? OR categoria LIKE ? OR profesor LIKE ?`,
+      [`%${query}%`, `%${query}%`, `%${query}%`]
+    );
+
+    console.log("Search results:", results);
+    res.render("resultados", {
+      archivos: results,
+      query: query,
+      user: req.user,
+    });
+  } catch (error) {
+    console.error("Error retrieving search results:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 // Middleware para verificar si el usuario es administrador
 function isAdmin(req, res, next) {
   if (req.user && req.user.tipo_usuario === 1) {

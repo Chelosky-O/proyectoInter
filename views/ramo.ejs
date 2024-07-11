@@ -75,6 +75,36 @@
                   onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')"
                   >➦</a
                 >
+                <% if(user.tipo_usuario == 1){-%>
+                <form
+                  id="delete-form-<%=archivo.id%>"
+                  action="/delete"
+                  method="POST"
+                  style="display: none"
+                >
+                  <input type="hidden" name="id" value="<%= archivo.id %>" />
+                  <input
+                    type="hidden"
+                    name="directorio"
+                    value="<%= archivo.directorio %>"
+                  />
+                  <input
+                    type="hidden"
+                    name="categoria"
+                    value="<%= archivo.categoria %>"
+                  />
+                  <input
+                    type="hidden"
+                    name="nombre"
+                    value="<%= archivo.nombre %>"
+                  />
+                </form>
+                <a
+                  href="#"
+                  onclick="document.getElementById('delete-form-<%= archivo.id %>').submit(); return false;"
+                  >✘</a
+                >
+                <%}%>
                 <span id="popup-copiarenlace">¡Enlace copiado!</span>
               </div>
             </div>
