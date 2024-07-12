@@ -44,6 +44,7 @@
               onclick="copiarEnlace('/uploads/<%= archivo.directorio %>')"
               >➦</a
             >
+            <span id="popup-copiarenlace">¡Enlace copiado!</span>
             <% if(user.tipo_usuario == 1){-%>
             <form
               id="delete-form-<%=archivo.id%>"
@@ -74,7 +75,6 @@
               >✘</a
             >
             <%}%>
-            <span id="popup-copiarenlace">¡Enlace copiado!</span>
           </div>
         </div>
         <% }) %>
