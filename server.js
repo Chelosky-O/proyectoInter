@@ -610,7 +610,7 @@ app.get("/search", async (req, res) => {
     console.log("Received search query:", query);
 
     const [results] = await db.query(
-      `SELECT * FROM archivo 
+      `SELECT * FROM Archivo 
      WHERE nombre LIKE ? OR categoria LIKE ? OR profesor LIKE ?`,
       [`%${query}%`, `%${query}%`, `%${query}%`]
     );
